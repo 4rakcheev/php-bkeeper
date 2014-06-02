@@ -74,7 +74,7 @@ $config = array(
     'sourceLanguage' => 'en',
 
     // @see http://www.yiiframework.com/doc/api/1.1/CApplication#language-detail
-    'language' => 'ru',
+    'language' => 'en',
 
     // preload components required before running applications
     // @see http://www.yiiframework.com/doc/api/1.1/CModule#preload-detail
@@ -125,7 +125,6 @@ $config = array(
         ),
         */
 
-        /*
         'db' => array(
             'class' => 'CDbConnection',
             'connectionString' => 'mysql:host=%%mysql_host%%;port=%%mysql_port%%;dbname=%%mysql_dbname%%',
@@ -134,7 +133,6 @@ $config = array(
             'password' => '%%mysql_password%%',
             'charset' => 'utf8',
         ),
-        */
 
         'log' => array(
             'class' => 'CLogRouter',

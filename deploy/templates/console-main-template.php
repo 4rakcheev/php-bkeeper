@@ -60,8 +60,6 @@ $config = array(
 
     // application components
     'components'=>array(
-
-        /*
         'db' => array(
             'class' => 'CDbConnection',
             'connectionString' => 'mysql:host=%%mysql_host%%;port=%%mysql_port%%;dbname=%%mysql_dbname%%',
@@ -70,8 +68,6 @@ $config = array(
             'password' => '%%mysql_password%%',
             'charset' => 'utf8',
         ),
-        */
-
     ),
 
     // application-level parameters that can be accessed
