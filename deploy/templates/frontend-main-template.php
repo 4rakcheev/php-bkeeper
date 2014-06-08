@@ -10,8 +10,8 @@
  * Могут быть переопределенны в в main-ENVIRONMENT.php см. конец файла
  */
 date_default_timezone_set('Europe/Moscow');
-error_reporting(0);
-ini_set('display_errors', false);
+error_reporting("%%php_error_reporting%%");
+ini_set('display_errors', "%%php_display_errors%%");
 
 /**
  * Базовые дирректории
@@ -60,6 +60,7 @@ Yii::setPathOfAlias('root', $root);
 Yii::setPathOfAlias('common', $root . DIRECTORY_SEPARATOR . 'common');
 Yii::setPathOfAlias('frontend', $root . DIRECTORY_SEPARATOR . 'frontend');
 Yii::setPathOfAlias('www', $root. DIRECTORY_SEPARATOR . 'frontend' . DIRECTORY_SEPARATOR . 'www');
+Yii::setPathOfAlias('bootstrap', $root. DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'extensions'. DIRECTORY_SEPARATOR . 'bootstrap');
 
 /**
  * Основной конфигурационный файл приложения
@@ -76,9 +77,11 @@ $config = array(
     // @see http://www.yiiframework.com/doc/api/1.1/CApplication#language-detail
     'language' => 'en',
 
+    //'theme'=> 'bootstrap',
+
     // preload components required before running applications
     // @see http://www.yiiframework.com/doc/api/1.1/CModule#preload-detail
-    'preload'=>array('log'),
+    'preload'=>array('log', 'bootstrap'),
 
     // autoloading model and component classes
     // @see http://www.yiiframework.com/doc/api/1.1/YiiBase#import-detail
@@ -91,24 +94,13 @@ $config = array(
         'common.models.*',
     ),
 
-    // @see http://www.yiiframework.com/doc/api/1.1/CModule#setModules-detail
-    /*
-    'modules'=>array(
-
-    ),
-    */
-
     // application components
     'components' => array(
         'user' => array(
 
         ),
 
-        'assetManager' => array(
-            'linkAssets' => true
-        ),
-
-        'urlManager' => array(
+       'urlManager' => array(
             'urlFormat' => 'path',
             'showScriptName' => false,
             'urlSuffix' => '/',
@@ -118,12 +110,9 @@ $config = array(
             ),
         ),
 
-        /*
         'bootstrap' => array(
-            'class' => 'common.extensions.bootstrap.components.Bootstrap',
-            'responsiveCss' => false,
+            'class' => 'bootstrap.components.Bootstrap',
         ),
-        */
 
         'db' => array(
             'class' => 'CDbConnection',
@@ -162,30 +151,5 @@ $config = array(
     ),
 
 );
-
-/**
- * Определяем среду выполнения приложения. Такая среда (вследствие некой ограниченности yii в данной области) задается через
- * переменную среды APPLICATION_ENV веб-сервером (apachе или nginx):
- * При запуске через связку nginx + php-fpm нужно передавать переменную среды с помощью директивы fastcgi_param, например:
- * <pre>
- * fastcgi_param APPLICATION_ENV stage;
- * </pre>
- * При запуске через связку nginx + apache следует воспользоваться директивой SETENV
- *
- * @link http://habrahabr.ru/post/146473/
- */
-$environment = isset($_SERVER['APPLICATION_ENV']) ? $_SERVER['APPLICATION_ENV'] : 'production';
-
-if($environment !== 'production') {
-
-    // Проверяем наличие файла конфигурации для среды исполнения и необходимость его подключения
-    $localConfigFile = $frontendConfigDir.'/main-'.$environment.'.php';
-    if(file_exists($localConfigFile)) {
-        $config = CMap::mergeArray(
-            $config,
-            require($localConfigFile)
-        );
-    }
-}
 
 return $config;

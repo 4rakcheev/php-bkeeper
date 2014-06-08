@@ -1,14 +1,13 @@
 <?php
 
-/**
- * Нужно определиться с каким конфигом будем тестировать
- */
+#error_reporting("E_ALL");
+#ini_set("display_errors", "On");
 
-//chdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..');
+chdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..');
+$yiit = 'common' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'Yii' . DIRECTORY_SEPARATOR . 'yiit.php';
+require_once($yiit);
 
-//$yiit = 'common' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'Yii' . DIRECTORY_SEPARATOR . 'yiit.php';
-//require_once($yiit);
+$config = require('common' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'main.php');
+Yii::createWebApplication($config);
 
-//$config = require('api' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'main.php');
 
-//Yii::createWebApplication($config);

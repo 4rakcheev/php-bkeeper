@@ -16,6 +16,11 @@ class ArticleGroup extends CActiveRecord {
         return parent::model($className);
     }
 
+    public function tableName()
+    {
+        return 'article_group';
+    }
+
     public function relations()
     {
         return array(

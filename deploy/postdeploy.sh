@@ -54,10 +54,10 @@ then
 fi
 
 parametrizeConfig templates/frontend-main-template.php $TMP_DIR/frontend-main.php
-parametrizeConfig templates/frontend-main-devel-template.php $TMP_DIR/frontend-main-devel.php
 parametrizeConfig templates/console-main-template.php $TMP_DIR/console-main.php
 parametrizeConfig templates/backend-main-template.php $TMP_DIR/backend-main.php
-parametrizeConfig templates/backend-main-devel-template.php $TMP_DIR/backend-main-devel.php
+parametrizeConfig templates/common-main-template.php $TMP_DIR/common-main.php
+parametrizeConfig templates/api-main-template.php $TMP_DIR/api-main.php
 
 if [[ $ERRORS = 1 ]]
 then
@@ -65,15 +65,17 @@ then
 fi
 
 mv $TMP_DIR/frontend-main.php ../frontend/config/main.php
-mv $TMP_DIR/frontend-main-devel.php ../frontend/config/main-devel.php
 mv $TMP_DIR/console-main.php ../console/config/main.php
 mv $TMP_DIR/backend-main.php ../backend/config/main.php
-mv $TMP_DIR/backend-main-devel.php ../backend/config/main-devel.php
+mv $TMP_DIR/common-main.php ../common/config/main.php
+mv $TMP_DIR/api-main.php ../api/config/main.php
 
 prepareDirs ../frontend/runtime
 prepareDirs ../frontend/www/assets
 prepareDirs ../console/runtime
 prepareDirs ../backend/runtime
 prepareDirs ../backend/www/assets
+prepareDirs ../api/runtime
+prepareDirs ../api/www/assets
 
 cd $CURDIR

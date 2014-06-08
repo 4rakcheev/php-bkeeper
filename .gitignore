@@ -25,6 +25,9 @@ index
 /frontend/www/assets
 /frontend/runtime
 
+/api/www/assets
+/api/runtime
+
 /backend/www/assets
 /backend/runtime
 
@@ -35,5 +38,6 @@ index
 /frontend/config/*.php
 /common/config/*.php
 /console/config/*.php
-!/console/config/default.php
+/api/config/*.php
+/console/config/default.php
 
