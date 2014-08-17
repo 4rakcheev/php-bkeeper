@@ -71,10 +71,10 @@ $config = array(
 
     'name' => 'WebApplication',
 
-    'sourceLanguage' => 'en',
+    'sourceLanguage' => 'ru',
 
     // @see http://www.yiiframework.com/doc/api/1.1/CApplication#language-detail
-    'language' => 'en',
+    'language' => 'ru',
 
     // preload components required before running applications
     // @see http://www.yiiframework.com/doc/api/1.1/CModule#preload-detail
@@ -88,6 +88,7 @@ $config = array(
         'frontend.extensions.*',
         'common.helpers.*',
         'common.extensions.*',
+        'common.extensions.enum.*',
         'common.models.*',
     ),
 
@@ -102,6 +103,10 @@ $config = array(
     'components' => array(
         'user' => array(
 
+        ),
+
+        'messages' => array(
+            'forceTranslation' => true
         ),
 
         'assetManager' => array(

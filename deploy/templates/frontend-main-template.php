@@ -72,10 +72,10 @@ $config = array(
 
     'name' => 'WebApplication',
 
-    'sourceLanguage' => 'en',
+    'sourceLanguage' => 'ru',
 
     // @see http://www.yiiframework.com/doc/api/1.1/CApplication#language-detail
-    'language' => 'en',
+    'language' => 'ru',
 
     //'theme'=> 'bootstrap',
 
@@ -91,13 +91,29 @@ $config = array(
         'frontend.extensions.*',
         'common.helpers.*',
         'common.extensions.*',
+        'common.extensions.enum.*',
         'common.models.*',
+    ),
+
+    'modules'=>array(
+        'gii'=>array(
+            'class'=>'system.gii.GiiModule',
+            'generatorPaths'=>array(
+                'bootstrap.gii',
+            ),
+            'password'=>'showmeall',
+            'ipFilters'=>array('192.168.1.101'),
+        ),
     ),
 
     // application components
     'components' => array(
         'user' => array(
 
+        ),
+
+        'messages' => array(
+            'forceTranslation' => true
         ),
 
        'urlManager' => array(
@@ -136,12 +152,10 @@ $config = array(
             )
         ),
 
-        /*
         'errorHandler' => array(
             // @see http://www.yiiframework.com/doc/api/1.1/CErrorHandler#errorAction-detail
             'errorAction'=>'site/error'
         ),
-        */
     ),
 
     // application-level parameters that can be accessed

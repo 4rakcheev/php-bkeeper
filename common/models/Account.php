@@ -1,23 +1,28 @@
 <?php
 
 /**
- * This is the model class for table "article_group".
+ * This is the model class for table "account".
  *
- * The followings are the available columns in table 'article_group':
- * @property integer $article_group_id
- * @property string $article_group_name
+ * The followings are the available columns in table 'account':
+ * @property integer $account_id
+ * @property string $account_name
+ * @property string $account_description
+ * @property integer $currency_id
+ * @property string $account_start_balance
  *
  * The followings are the available model relations:
- * @property Article[] $articles
+ * @property Debt $account
+ * @property Transaction[] $transactions
+ * @property Transaction[] $transactions1
  */
-class ArticleGroup extends CActiveRecord
+class Account extends CActiveRecord
 {
     /**
      * @return string the associated database table name
      */
     public function tableName()
     {
-        return 'article_group';
+        return 'account';
     }
 
     /**
@@ -28,12 +33,15 @@ class ArticleGroup extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('article_group_name', 'required'),
-            array('article_group_name', 'length', 'max' => 50),
+            array('account_name, currency_id', 'required'),
+            array('currency_id', 'numerical', 'integerOnly' => true),
+            array('account_name', 'length', 'max' => 50),
+            array('account_description', 'length', 'max' => 255),
+            array('account_start_balance', 'length', 'max' => 20),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array(
-                'article_group_id, article_group_name',
+                'account_id, account_name, account_description, currency_id, account_start_balance',
                 'safe',
                 'on' => 'search'
             ),
@@ -48,7 +56,18 @@ class ArticleGroup extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'articles' => array(self::HAS_MANY, 'Article', 'article_group_id'),
+            'account' => array(self::BELONGS_TO, 'Debt', 'account_id'),
+            'transactions' => array(
+                self::HAS_MANY,
+                'Transaction',
+                'account_id_credit'
+            ),
+            'transactions1' => array(
+                self::HAS_MANY,
+                'Transaction',
+                'account_id_debet'
+            ),
+            'currency' => array(self::BELONGS_TO, 'Currency', 'currency_id'),
         );
     }
 
@@ -58,8 +77,11 @@ class ArticleGroup extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'article_group_id' => 'Article Group',
-            'article_group_name' => 'Article Group Name',
+            'account_id' => 'Account',
+            'account_name' => 'Account Name',
+            'account_description' => 'Account Description',
+            'currency_id' => 'Currency',
+            'account_start_balance' => 'Account Start Balance',
         );
     }
 
@@ -81,10 +103,17 @@ class ArticleGroup extends CActiveRecord
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('article_group_id', $this->article_group_id);
+        $criteria->compare('account_id', $this->account_id);
+        $criteria->compare('account_name', $this->account_name, true);
         $criteria->compare(
-            'article_group_name',
-            $this->article_group_name,
+            'account_description',
+            $this->account_description,
+            true
+        );
+        $criteria->compare('currency_id', $this->currency_id);
+        $criteria->compare(
+            'account_start_balance',
+            $this->account_start_balance,
             true
         );
 
@@ -97,7 +126,7 @@ class ArticleGroup extends CActiveRecord
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
-     * @return ArticleGroup the static model class
+     * @return Account the static model class
      */
     public static function model($className = __CLASS__)
     {

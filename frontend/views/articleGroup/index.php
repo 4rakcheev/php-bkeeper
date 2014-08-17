@@ -1,7 +1,6 @@
-
 <?php
 $this->sidebar=array(
-    array('label'=>'Редактировать группы', 'icon'=>'pencil', 'url'=>array('articleGroup/index')),
+    array('label'=>'Статьи', 'icon'=>'backward', 'url'=>array('article/index')),
 );
 ?>
 
@@ -12,10 +11,8 @@ $this->sidebar=array(
         'dataProvider'=>$gridDataProvider,
         'template'=>"{items}",
         'columns'=>array(
-            array('name'=>'article_id', 'header'=>'#'),
-            array('name'=>'article_name', 'header'=>'Name'),
-            array('name'=>'articleGroup.article_group_name', 'header'=>'Group'),
-            array('name'=>'article_type', 'header'=>'Type'),
+            array('name'=>'article_group_id', 'header'=>'#'),
+            array('name'=>'article_group_name', 'header'=>'Name'),
             array(
                 'class'=>'bootstrap.widgets.TbButtonColumn',
                 'htmlOptions'=>array('style'=>'width: 50px'),

@@ -1,27 +1,21 @@
 <?php
 
 /**
- * This is the model class for table "article".
+ * This is the model class for table "currency".
  *
- * The followings are the available columns in table 'article':
- * @property integer $article_id
- * @property string $article_name
- * @property integer $article_group_id
- * @property string $article_type
- *
- * The followings are the available model relations:
- * @property ArticleGroup $articleGroup
- * @property BudgetPlan[] $budgetPlans
- * @property Transaction[] $transactions
+ * The followings are the available columns in table 'currency':
+ * @property integer $currency_id
+ * @property string $currency_name
+ * @property string $currency_symbol
  */
-class Article extends CActiveRecord
+class Currency extends CActiveRecord
 {
     /**
      * @return string the associated database table name
      */
     public function tableName()
     {
-        return 'article';
+        return 'currency';
     }
 
     /**
@@ -32,14 +26,16 @@ class Article extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('article_name, article_type', 'required'),
-            array('article_group_id', 'numerical', 'integerOnly'=>true),
-            array('article_name', 'length', 'max'=>50),
-            array('article_type', 'length', 'max'=>7),
-            array('article_type', 'in', 'range'=> ArticleEnum::getValidValues()),
+            array('currency_name, currency_symbol', 'required'),
+            array('currency_name', 'length', 'max' => 50),
+            array('currency_symbol', 'length', 'max' => 4),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('article_id, article_name, article_group_id, article_type', 'safe', 'on'=>'search'),
+            array(
+                'currency_id, currency_name, currency_symbol',
+                'safe',
+                'on' => 'search'
+            ),
         );
     }
 
@@ -51,9 +47,7 @@ class Article extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'articleGroup' => array(self::BELONGS_TO, 'ArticleGroup', 'article_group_id'),
-            'budgetPlans' => array(self::HAS_MANY, 'BudgetPlan', 'article_id'),
-            'transactions' => array(self::HAS_MANY, 'Transaction', 'article_id'),
+            'articles' => array(self::HAS_MANY, 'Account', 'currency_id'),
         );
     }
 
@@ -63,10 +57,9 @@ class Article extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'article_id' => 'Article',
-            'article_name' => 'Article Name',
-            'article_group_id' => 'Article Group',
-            'article_type' => 'Article Type',
+            'currency_id' => 'Currency',
+            'currency_name' => 'Currency Name',
+            'currency_symbol' => 'Currency Symbol',
         );
     }
 
@@ -86,15 +79,14 @@ class Article extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-        $criteria->compare('article_id',$this->article_id);
-        $criteria->compare('article_name',$this->article_name,true);
-        $criteria->compare('article_group_id',$this->article_group_id);
-        $criteria->compare('article_type',$this->article_type,true);
+        $criteria->compare('currency_id', $this->currency_id);
+        $criteria->compare('currency_name', $this->currency_name, true);
+        $criteria->compare('currency_symbol', $this->currency_symbol, true);
 
         return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
+            'criteria' => $criteria,
         ));
     }
 
@@ -102,9 +94,9 @@ class Article extends CActiveRecord
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
-     * @return Article the static model class
+     * @return Currency the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

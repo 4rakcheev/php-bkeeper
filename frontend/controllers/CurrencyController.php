@@ -1,15 +1,15 @@
 <?php
 /**
- * @file ArticleController.php
+ * @file CurrencyController.php
  *
  * @project bkeeper
  * @author tema 4tema2@gmail.com
  * @date 04.06.14 15:40
  */
 
-class ArticleController extends CController {
+class CurrencyController extends CController {
 
-    public $sidebar = array();
+    public $sidebar=array();
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
@@ -18,7 +18,7 @@ class ArticleController extends CController {
      */
     public function loadModel($id)
     {
-        $model=Article::model()->findByPk($id);
+        $model=Currency::model()->findByPk($id);
         if($model===null)
             throw new CHttpException(404,'The requested page does not exist.');
         return $model;
@@ -37,25 +37,25 @@ class ArticleController extends CController {
 
     public function actionIndex()
     {
-        $dataProvider=new CActiveDataProvider('Article', array(
+        $dataProvider=new CActiveDataProvider('Currency', array(
             'pagination'=>array(
                 'pageSize'=>5,
             ),
         ));
 
         $this->render('index',array(
-            'gridDataProvider'=>$dataProvider,
-        ));
+                'gridDataProvider'=>$dataProvider,
+            ));
 
     }
 
     public function actionCreate()
     {
-        $model = new Article();
+        $model = new Currency();
 
         // collect user input data
-        if (isset($_POST['Article'])) {
-            $model->attributes=$_POST['Article'];
+        if (isset($_POST['Currency'])) {
+            $model->attributes=$_POST['Currency'];
             if($model->save()) {
                 $this->redirect(array('index'));
             }
@@ -71,9 +71,9 @@ class ArticleController extends CController {
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if(isset($_POST['Article']))
+        if(isset($_POST['Currency']))
         {
-            $model->attributes=$_POST['Article'];
+            $model->attributes=$_POST['Currency'];
             if($model->save()) {
                 $this->redirect(array('index'));
             }
