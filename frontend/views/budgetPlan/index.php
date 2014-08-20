@@ -14,6 +14,9 @@
                 array(
                     'class'=>'bootstrap.widgets.TbButtonColumn',
                     'htmlOptions'=>array('style'=>'width: 50px'),
+                    'viewButtonUrl'=>'Yii::app()->controller->createUrl("view",array("id"=>$data["budget_plan_id"]))',
+                    'updateButtonUrl'=>'Yii::app()->controller->createUrl("update",array("id"=>$data["budget_plan_id"]))',
+                    'deleteButtonUrl'=>'Yii::app()->controller->createUrl("delete",array("id"=>$data["budget_plan_id"]))',
                 ),
             ),
         ));
@@ -32,6 +35,9 @@
                     array(
                         'class'=>'bootstrap.widgets.TbButtonColumn',
                         'htmlOptions'=>array('style'=>'width: 50px'),
+                        'viewButtonUrl'=>'Yii::app()->controller->createUrl("view",array("id"=>$data["budget_plan_id"]))',
+                        'updateButtonUrl'=>'Yii::app()->controller->createUrl("update",array("id"=>$data["budget_plan_id"]))',
+                        'deleteButtonUrl'=>'Yii::app()->controller->createUrl("delete",array("id"=>$data["budget_plan_id"]))',
                     ),
                 ),
             ));

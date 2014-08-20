@@ -47,7 +47,7 @@ class BudgetPlanController extends CController {
                 switch ($record->article->article_type) {
                     case ArticleEnum::TYPE_EXPENSE:
                         $expRows[] = array(
-                            'id' => $record->budget_plan_id,
+                            'budget_plan_id' => $record->budget_plan_id,
                             'article_name' => $bp->articleName,
                             'budget_plan_amount' => $bp->expense->plan_amount,
                             'budget_today_amount' => $bp->expense->today_amount,
@@ -55,7 +55,7 @@ class BudgetPlanController extends CController {
                         break;
                     case ArticleEnum::TYPE_COMING:
                         $comRows[$record->budget_plan_id] = array(
-                            'id' => $record->budget_plan_id,
+                            'budget_plan_id' => $record->budget_plan_id,
                             'article_name' => $bp->articleName,
                             'budget_plan_amount' => $bp->coming->plan_amount,
                             'budget_today_amount' => $bp->coming->today_amount,
@@ -67,28 +67,22 @@ class BudgetPlanController extends CController {
 
         $expDataProvider=new CArrayDataProvider($expRows, array(
             'id'=>'budget_plan_expense',
-            //'keyField' => false,
-            /*
             'sort'=>array(
                 'attributes'=>array(
-                    'id', 'username', 'email',
+                    'budget_plan_id', 'article_name'
                 ),
             ),
-            // */
             'pagination'=>array(
                 'pageSize'=>10,
             ),
         ));
         $comDataProvider=new CArrayDataProvider($comRows, array(
             'id'=>'budget_plan_coming',
-            'keyField' => 'id',
-            /*
             'sort'=>array(
                 'attributes'=>array(
-                    'id', 'username', 'email',
+                    'budget_plan_id', 'article_name'
                 ),
             ),
-            // */
             'pagination'=>array(
                 'pageSize'=>10,
             ),
