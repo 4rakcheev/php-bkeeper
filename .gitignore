@@ -41,3 +41,4 @@ index
 /api/config/*.php
 /console/config/default.php
 
+!/common/config/dbabstraction-queries.php
