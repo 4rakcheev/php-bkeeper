@@ -1,138 +1,135 @@
 <?php
-
 /**
- * This is the model class for table "budget_plan".
- *
- * The followings are the available columns in table 'budget_plan':
- * @property integer $budget_plan_id
- * @property integer $article_id
- * @property string $budget_plan_yan
- * @property string $budget_plan_feb
- * @property string $budget_plan_mar
- * @property string $budget_plan_apr
- * @property string $budget_plan_may
- * @property string $budget_plan_jun
- * @property string $budget_plan_jul
- * @property string $budget_plan_aug
- * @property string $budget_plan_sep
- * @property string $budget_plan_oct
- * @property string $budget_plan_nov
- * @property string $budget_plan_dec
+ * Created by PhpStorm.
+ * User: tema
+ * Date: 18.08.14
+ * Time: 19:09
  */
-class BudgetPlan extends CActiveRecord
-{
-    /**
-     * @return string the associated database table name
-     */
-    public function tableName()
+
+class BudgetPlan extends CModel {
+
+    public $date;
+    public $budget_plan_id;
+
+    private $_summaryList;
+    private $_summary;
+
+    public function attributeNames()
     {
-        return 'budget_plan';
+        return array(
+            'date', 'summaryComing', 'summaryExpense', 'budget_plan_id',
+            'coming', 'expense', 'articleName',
+        );
     }
 
-    /**
-     * @return array validation rules for model attributes.
-     */
     public function rules()
     {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
         return array(
-            array('article_id', 'required'),
-            array('article_id', 'numerical', 'integerOnly' => true),
-            array(
-                'budget_plan_yan, budget_plan_feb, budget_plan_mar, budget_plan_apr, budget_plan_may, budget_plan_jun, budget_plan_jul, budget_plan_aug, budget_plan_sep, budget_plan_oct, budget_plan_nov, budget_plan_dec',
-                'length',
-                'max' => 20
-            ),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
-            array(
-                'budget_plan_id, article_id, budget_plan_yan, budget_plan_feb, budget_plan_mar, budget_plan_apr, budget_plan_may, budget_plan_jun, budget_plan_jul, budget_plan_aug, budget_plan_sep, budget_plan_oct, budget_plan_nov, budget_plan_dec',
-                'safe',
-                'on' => 'search'
-            ),
+            array('date', 'default', 'value'=>date('Y-m-d')),
+            array('date', 'date', 'format'=>'yyyy-MM-dd'),
         );
     }
 
-    /**
-     * @return array relational rules.
-     */
-    public function relations()
+    public function getArticleName()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return array();
+        return BudgetPlanRecord::model()->findByPk($this->budget_plan_id)->article->article_name;
+    }
+
+    public static function getMonth($date)
+    {
+        return strtolower(date('M', strtotime($date)));
+    }
+
+    public function getSummaryComing()
+    {
+        return $this->getTotalSummary(ArticleEnum::TYPE_COMING);
+    }
+
+    public function getSummaryExpense()
+    {
+        return $this->getTotalSummary(ArticleEnum::TYPE_EXPENSE);
+    }
+
+    public function getTotalSummary($type=ArticleEnum::TYPE_COMING)
+    {
+        if (empty($this->_summary[$type])) {
+            $summaryList = $this->getSummaryList($type);
+            $this->_summary[$type] = new BudgetPlanSummaryTotal();
+            $this->_summary[$type]->month = self::getMonth($this->date);
+            if (!empty($summaryList)) {
+                foreach ($summaryList as $summary) {
+                    $this->_summary[$type]->total_plan_amount += $summary->plan_amount;
+                    $this->_summary[$type]->total_today_amount += $summary->today_amount;
+                }
+            }
+        }
+        return $this->_summary[$type];
     }
 
     /**
-     * @return array customized attribute labels (name=>label)
+     * @return BudgetPlanSummary
+     * @throws CException
      */
-    public function attributeLabels()
+    public function getExpense()
     {
-        return array(
-            'budget_plan_id' => 'Budget Plan',
-            'article_id' => 'Article',
-            'budget_plan_yan' => 'Budget Plan Yan',
-            'budget_plan_feb' => 'Budget Plan Feb',
-            'budget_plan_mar' => 'Budget Plan Mar',
-            'budget_plan_apr' => 'Budget Plan Apr',
-            'budget_plan_may' => 'Budget Plan May',
-            'budget_plan_jun' => 'Budget Plan Jun',
-            'budget_plan_jul' => 'Budget Plan Jul',
-            'budget_plan_aug' => 'Budget Plan Aug',
-            'budget_plan_sep' => 'Budget Plan Sep',
-            'budget_plan_oct' => 'Budget Plan Oct',
-            'budget_plan_nov' => 'Budget Plan Nov',
-            'budget_plan_dec' => 'Budget Plan Dec',
-        );
+        if (empty($this->budget_plan_id)) {
+            throw new CException("Budget plan ID must be set");
+        }
+        if (empty($this->_summaryList[ArticleEnum::TYPE_EXPENSE])) {
+            $this->getTotalSummary(ArticleEnum::TYPE_EXPENSE);
+        }
+        return $this->_summaryList[ArticleEnum::TYPE_EXPENSE][$this->budget_plan_id];
     }
 
     /**
-     * Retrieves a list of models based on the current search/filter conditions.
-     *
-     * Typical usecase:
-     * - Initialize the model fields with values from filter form.
-     * - Execute this method to get CActiveDataProvider instance which will filter
-     * models according to data in model fields.
-     * - Pass data provider to CGridView, CListView or any similar widget.
-     *
-     * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * @return BudgetPlanSummary
+     * @throws CException
      */
-    public function search()
+    public function getComing()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
-        $criteria = new CDbCriteria;
-
-        $criteria->compare('budget_plan_id', $this->budget_plan_id);
-        $criteria->compare('article_id', $this->article_id);
-        $criteria->compare('budget_plan_yan', $this->budget_plan_yan, true);
-        $criteria->compare('budget_plan_feb', $this->budget_plan_feb, true);
-        $criteria->compare('budget_plan_mar', $this->budget_plan_mar, true);
-        $criteria->compare('budget_plan_apr', $this->budget_plan_apr, true);
-        $criteria->compare('budget_plan_may', $this->budget_plan_may, true);
-        $criteria->compare('budget_plan_jun', $this->budget_plan_jun, true);
-        $criteria->compare('budget_plan_jul', $this->budget_plan_jul, true);
-        $criteria->compare('budget_plan_aug', $this->budget_plan_aug, true);
-        $criteria->compare('budget_plan_sep', $this->budget_plan_sep, true);
-        $criteria->compare('budget_plan_oct', $this->budget_plan_oct, true);
-        $criteria->compare('budget_plan_nov', $this->budget_plan_nov, true);
-        $criteria->compare('budget_plan_dec', $this->budget_plan_dec, true);
-
-        return new CActiveDataProvider($this, array(
-            'criteria' => $criteria,
-        ));
+        if (empty($this->budget_plan_id)) {
+            throw new CException("Budget plan ID must be set");
+        }
+        if (empty($this->_summaryList[ArticleEnum::TYPE_COMING])) {
+            $this->getTotalSummary(ArticleEnum::TYPE_COMING);
+        }
+        return $this->_summaryList[ArticleEnum::TYPE_COMING][$this->budget_plan_id];
     }
 
     /**
-     * Returns the static model of the specified AR class.
-     * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
-     * @return BudgetPlan the static model class
+     * @param string $type
+     * @return BudgetPlanSummary[]|bool
      */
-    public static function model($className = __CLASS__)
+    public function getSummaryList($type=ArticleEnum::TYPE_COMING)
     {
-        return parent::model($className);
+        if (!$this->validate())
+            return false;
+
+        $year = date('Y', strtotime($this->date));
+        $month = self::getMonth($this->date);
+
+        if (!empty($this->_summaryList[$type])) {
+            return $this->_summaryList[$type];
+        }
+
+        $connection = Yii::app()->connMan->getConn('dbMySQL');
+        $db_result = $connection->query('getBudgetSummary', array(
+                'year' => $year,
+                'article_type' => $type,
+            ));
+        if (!$db_result[0]) {
+            return array();
+        }
+
+        foreach ($db_result[1] as $summaryInfo) {
+            $summary = new BudgetPlanSummary();
+            $summary->article_id = $summaryInfo['article_id'];
+            $summary->month = $month;
+            $summary->plan_amount = $summaryInfo['budget_plan_'.$month];
+            $summary->today_amount = $summaryInfo['amount'];
+            $this->_summaryList[$type][$summaryInfo['budget_plan_id']] = $summary;
+        }
+        return $this->_summaryList[$type];
     }
-}
+
+} 

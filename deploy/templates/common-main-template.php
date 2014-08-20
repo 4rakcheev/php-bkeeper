@@ -23,6 +23,8 @@ $root = $frontendConfigDir . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 
  * Специфичные для данного приложения конфигурационные файлы и настройки
  * Часть содержимого $config
  */
+$dbAbstractionQueriesFile = $root . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'dbabstraction-queries.php';
+$dbAbstractionQueriesConfiguration = file_exists($dbAbstractionQueriesFile) ? require($dbAbstractionQueriesFile) : array();
 
 /**
  * Например:
@@ -83,12 +85,11 @@ $config = array(
     // autoloading model and component classes
     // @see http://www.yiiframework.com/doc/api/1.1/YiiBase#import-detail
     'import'=>array(
-        'frontend.components.*',
-        'frontend.models.*',
-        'frontend.extensions.*',
         'common.helpers.*',
         'common.extensions.*',
         'common.extensions.enum.*',
+        'common.extensions.DbAbstraction.*',
+        'common.extensions.DbAbstraction.Connection.*',
         'common.models.*',
     ),
 
@@ -105,14 +106,6 @@ $config = array(
 
         ),
 
-        'messages' => array(
-            'forceTranslation' => true
-        ),
-
-        'assetManager' => array(
-            'linkAssets' => true
-        ),
-
         'urlManager' => array(
             'urlFormat' => 'path',
             'showScriptName' => false,
@@ -123,13 +116,6 @@ $config = array(
             ),
         ),
 
-        /*
-        'bootstrap' => array(
-            'class' => 'common.extensions.bootstrap.components.Bootstrap',
-            'responsiveCss' => false,
-        ),
-        */
-
         'db' => array(
             'class' => 'CDbConnection',
             'connectionString' => 'mysql:host=%%mysql_host%%;port=%%mysql_port%%;dbname=%%mysql_dbname%%',
@@ -137,6 +123,27 @@ $config = array(
             'username' => '%%mysql_username%%',
             'password' => '%%mysql_password%%',
             'charset' => 'utf8',
+        ),
+
+        'connMan' => array(
+            'class' => 'common.extensions.DbAbstraction.DbAbstractionWrapperYii',
+            'connections' => array(
+                'dbAbstraction' => array(
+                    'connectionName' => 'dbMySQL',
+                    'connectionSettings' => array(
+                        'connectionClassName' => 'PdoConnection',
+                        'connectionDriverClassName' => 'PDO',
+                        'connectionDriverName' => 'mysql',
+                        'dsn' => 'mysql:host=%%mysql_host%%;port=%%mysql_port%%;dbname=%%mysql_dbname%%',
+                        'username' => '%%mysql_username%%',
+                        'password' => '%%mysql_password%%',
+                        'options' => array(
+                            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
+                        )
+                    )
+                )
+            ),
+            'queries' => $dbAbstractionQueriesConfiguration,
         ),
 
         'log' => array(

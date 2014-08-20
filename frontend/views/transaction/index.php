@@ -7,10 +7,14 @@
         'template'=>"{items}",
         'columns'=>array(
             array('name'=>'transaction_id', 'header'=>'#'),
-            array('name'=>'transaction_type', 'header'=>'Name'),
-            array('name'=>'transaction_status', 'header'=>'Description'),
-            array('name'=>'account_start_balance', 'header'=>'Start balance'),
-            array('name'=>'currency.currency_name', 'header'=>'Currency'),
+            array('name'=>'transaction_type', 'header'=>'Type'),
+            array('name'=>'transaction_status', 'header'=>'Status'),
+            array('name'=>'transaction_amount', 'header'=>'Amount'),
+            array('name'=>'transaction_date', 'header'=>'Date'),
+            array('name'=>'accountIdDebet.account_name', 'header'=>'Debet'),
+            array('name'=>'accountIdCredit.account_name', 'header'=>'Credit'),
+            array('name'=>'article.article_name', 'header'=>'Article'),
+            array('name'=>'transaction_description', 'header'=>'Description'),
             array(
                 'class'=>'bootstrap.widgets.TbButtonColumn',
                 'htmlOptions'=>array('style'=>'width: 50px'),

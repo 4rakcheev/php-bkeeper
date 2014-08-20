@@ -10,7 +10,6 @@ class TestController extends CController {
 
     public function actionIndex()
     {
-        var_dump(ArticleEnum::getDataForDropDown());
     }
 
 } 

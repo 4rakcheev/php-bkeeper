@@ -18,7 +18,7 @@ class BudgetPlanController extends CController {
      */
     public function loadModel($id)
     {
-        $model=BudgetPlan::model()->findByPk($id);
+        $model=BudgetPlanRecord::model()->findByPk($id);
         if($model===null)
             throw new CHttpException(404,'The requested page does not exist.');
         return $model;
@@ -37,7 +37,66 @@ class BudgetPlanController extends CController {
 
     public function actionIndex()
     {
-        $dataProvider=new CActiveDataProvider('BudgetPlan', array(
+        $records = BudgetPlanRecord::model()->findAll();
+        $expRows = array();
+        $comRows = array();
+        if (!empty($records)) {
+            foreach ($records as $record) {
+                $bp = new BudgetPlan();
+                $bp->budget_plan_id = $record->budget_plan_id;
+                switch ($record->article->article_type) {
+                    case ArticleEnum::TYPE_EXPENSE:
+                        $expRows[] = array(
+                            'id' => $record->budget_plan_id,
+                            'article_name' => $bp->articleName,
+                            'budget_plan_amount' => $bp->expense->plan_amount,
+                            'budget_today_amount' => $bp->expense->today_amount,
+                        );
+                        break;
+                    case ArticleEnum::TYPE_COMING:
+                        $comRows[$record->budget_plan_id] = array(
+                            'id' => $record->budget_plan_id,
+                            'article_name' => $bp->articleName,
+                            'budget_plan_amount' => $bp->coming->plan_amount,
+                            'budget_today_amount' => $bp->coming->today_amount,
+                        );
+                        break;
+                }
+            }
+        }
+
+        $expDataProvider=new CArrayDataProvider($expRows, array(
+            'id'=>'budget_plan_expense',
+            //'keyField' => false,
+            /*
+            'sort'=>array(
+                'attributes'=>array(
+                    'id', 'username', 'email',
+                ),
+            ),
+            // */
+            'pagination'=>array(
+                'pageSize'=>10,
+            ),
+        ));
+        $comDataProvider=new CArrayDataProvider($comRows, array(
+            'id'=>'budget_plan_coming',
+            'keyField' => 'id',
+            /*
+            'sort'=>array(
+                'attributes'=>array(
+                    'id', 'username', 'email',
+                ),
+            ),
+            // */
+            'pagination'=>array(
+                'pageSize'=>10,
+            ),
+        ));
+
+
+        /*
+        $dataProvider=new CActiveDataProvider('BudgetPlanRecord', array(
             'pagination'=>array(
                 'pageSize'=>5,
             ),
@@ -46,16 +105,21 @@ class BudgetPlanController extends CController {
         $this->render('index',array(
                 'gridDataProvider'=>$dataProvider,
             ));
+        // */
+        $this->render('index',array(
+                'expGridDataProvider'=>$expDataProvider,
+                'comGridDataProvider'=>$comDataProvider,
+            ));
 
     }
 
     public function actionCreate()
     {
-        $model = new BudgetPlan();
+        $model = new BudgetPlanRecord();
 
         // collect user input data
-        if (isset($_POST['BudgetPlan'])) {
-            $model->attributes=$_POST['BudgetPlan'];
+        if (isset($_POST['BudgetPlanRecord'])) {
+            $model->attributes=$_POST['BudgetPlanRecord'];
             if($model->save()) {
                 $this->redirect(array('index'));
             }
@@ -71,9 +135,9 @@ class BudgetPlanController extends CController {
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if(isset($_POST['BudgetPlan']))
+        if(isset($_POST['BudgetPlanRecord']))
         {
-            $model->attributes=$_POST['BudgetPlan'];
+            $model->attributes=$_POST['BudgetPlanRecord'];
             if($model->save()) {
                 $this->redirect(array('index'));
             }

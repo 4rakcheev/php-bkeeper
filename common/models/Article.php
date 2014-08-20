@@ -11,7 +11,7 @@
  *
  * The followings are the available model relations:
  * @property ArticleGroup $articleGroup
- * @property BudgetPlan[] $budgetPlans
+ * @property BudgetPlanRecord[] $budgetPlans
  * @property Transaction[] $transactions
  */
 class Article extends CActiveRecord
@@ -52,7 +52,7 @@ class Article extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'articleGroup' => array(self::BELONGS_TO, 'ArticleGroup', 'article_group_id'),
-            'budgetPlans' => array(self::HAS_MANY, 'BudgetPlan', 'article_id'),
+            'budgetPlans' => array(self::HAS_MANY, 'BudgetPlanRecord', 'article_id'),
             'transactions' => array(self::HAS_MANY, 'Transaction', 'article_id'),
         );
     }

@@ -17,6 +17,8 @@
  */
 class Account extends CActiveRecord
 {
+    private $_balance;
+
     /**
      * @return string the associated database table name
      */
@@ -120,6 +122,31 @@ class Account extends CActiveRecord
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
+    }
+
+    /**
+     * Возвращает баланс счета на дату
+     * @param null $date
+     * @return int
+     */
+    public function getBalance($date=null)
+    {
+        if (empty($date)) {
+            $date = date('Y-m-d');
+        }
+        if (!empty($this->_balance)) {
+            return $this->_balance;
+        }
+        $connection = Yii::app()->connMan->getConn('dbMySQL');
+        $ret = $connection->query('getAccountBalanceInfo', array(
+                'account_id' => $this->account_id,
+                'date' => $date,
+            ));
+        if (!$ret[0]) {
+            return 0;
+        }
+        $balInfo = $ret[1];
+        return $balInfo['start_balance'] + $balInfo['coming'] - $balInfo['expense'];
     }
 
     /**

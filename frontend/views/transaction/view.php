@@ -5,15 +5,18 @@ $this->sidebar=array(
 );
 ?>
 
-<h1>View ArticleGroup #<?php echo $model->account_id; ?></h1>
+<h1>View Transaction #<?php echo $model->transaction_id; ?></h1>
 
 <?php $this->widget('bootstrap.widgets.TbDetailView',array(
         'data'=>$model,
         'attributes'=>array(
-            'account_id',
-            'account_name',
-            'account_description',
-            'account_start_balance',
-            'currency.currency_name',
+            'transaction_id',
+            'transaction_type',
+            'transaction_status',
+            'transaction_amount',
+            'accountIdDebet.account_name',
+            'accountIdCredit.account_name',
+            'article.article_name',
+            'transaction_description',
         ),
     )); ?>

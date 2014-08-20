@@ -16,6 +16,7 @@ $this->sidebar=array(
             array('name'=>'account_description', 'header'=>'Description'),
             array('name'=>'account_start_balance', 'header'=>'Start balance'),
             array('name'=>'currency.currency_name', 'header'=>'Currency'),
+            array('name'=>'balance', 'header'=>'Balance'),
             array(
                 'class'=>'bootstrap.widgets.TbButtonColumn',
                 'htmlOptions'=>array('style'=>'width: 50px'),

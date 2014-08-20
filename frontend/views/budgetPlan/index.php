@@ -1,23 +1,41 @@
 
 <div class="container">
-<?php
+    <?php
     $this->widget('bootstrap.widgets.TbGridView', array(
-        'type'=>'striped bordered condensed',
-        'dataProvider'=>$gridDataProvider,
-        'template'=>"{items}",
-        'columns'=>array(
-            array('name'=>'budget_plan_id', 'header'=>'#'),
-            array('name'=>'article.article_name', 'header'=>'Article Name'),
-            array('name'=>'transaction_status', 'header'=>'Description'),
-            array('name'=>'account_start_balance', 'header'=>'Start balance'),
-            array('name'=>'currency.currency_name', 'header'=>'Currency'),
-            array(
-                'class'=>'bootstrap.widgets.TbButtonColumn',
-                'htmlOptions'=>array('style'=>'width: 50px'),
+            'id'=>'budget_plan_id',
+            'type'=>'striped bordered condensed',
+            'dataProvider'=>$expGridDataProvider,
+            'template'=>"{items}",
+            'columns'=>array(
+                array('name'=>'budget_plan_id', 'header'=>'#'),
+                array('name'=>'article_name', 'header'=>'Article name'),
+                array('name'=>'budget_plan_amount', 'header'=>'Ожидается'),
+                array('name'=>'budget_today_amount', 'header'=>'Факт'),
+                array(
+                    'class'=>'bootstrap.widgets.TbButtonColumn',
+                    'htmlOptions'=>array('style'=>'width: 50px'),
+                ),
             ),
-        ),
-    ));
-?>
+        ));
+    ?>
+    <div class="container">
+        <?php
+        $this->widget('bootstrap.widgets.TbGridView', array(
+                'type'=>'striped bordered condensed',
+                'dataProvider'=>$comGridDataProvider,
+                'template'=>"{items}",
+                'columns'=>array(
+                    array('name'=>'budget_plan_id', 'header'=>'#'),
+                    array('name'=>'article_name', 'header'=>'Article name'),
+                    array('name'=>'budget_plan_amount', 'header'=>'Ожидается'),
+                    array('name'=>'budget_today_amount', 'header'=>'Факт'),
+                    array(
+                        'class'=>'bootstrap.widgets.TbButtonColumn',
+                        'htmlOptions'=>array('style'=>'width: 50px'),
+                    ),
+                ),
+            ));
+        ?>
 </div>
 <div class="container">
 <?php $this->widget('bootstrap.widgets.TbButton', array(

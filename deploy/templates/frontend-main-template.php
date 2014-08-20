@@ -23,6 +23,7 @@ $root = $frontendConfigDir . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 
  * Специфичные для данного приложения конфигурационные файлы и настройки
  * Часть содержимого $config
  */
+$commonConfigDir = $root . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'config';
 
 /**
  * Например:
@@ -89,10 +90,6 @@ $config = array(
         'frontend.components.*',
         'frontend.models.*',
         'frontend.extensions.*',
-        'common.helpers.*',
-        'common.extensions.*',
-        'common.extensions.enum.*',
-        'common.models.*',
     ),
 
     'modules'=>array(
@@ -165,5 +162,10 @@ $config = array(
     ),
 
 );
+
+/**
+ * Подключаем общий конфиг
+ */
+$config = CMap::mergeArray($config, require($commonConfigDir . '/main.php'));
 
 return $config;

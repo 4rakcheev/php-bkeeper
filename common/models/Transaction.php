@@ -61,7 +61,39 @@ class Transaction extends CActiveRecord
                 'safe',
                 'on' => 'search'
             ),
+            array('transaction_type', 'typeValidate'),
         );
+    }
+
+    public function typeValidate($attribute)
+    {
+        $value = $this->{$attribute};
+        switch ($value) {
+            case TransactionEnum::TYPE_EXPENSE:
+                if (!empty($this->account_id_debet)) {
+                    $this->addError($attribute, 'Debet account must be empty for '.TransactionEnum::TYPE_EXPENSE.' type');
+                }
+                if (empty($this->account_id_credit)) {
+                    $this->addError($attribute, 'Credit account must be set for '.TransactionEnum::TYPE_EXPENSE.' type');
+                }
+                break;
+            case TransactionEnum::TYPE_COMING:
+                if (!empty($this->account_id_credit)) {
+                    $this->addError($attribute, 'Credit account must be empty for '.TransactionEnum::TYPE_COMING.' type');
+                }
+                if (empty($this->account_id_debet)) {
+                    $this->addError($attribute, 'Debet account must be set for '.TransactionEnum::TYPE_COMING.' type');
+                }
+                break;
+            case TransactionEnum::TYPE_TRANSFER:
+                if (empty($this->account_id_credit) || empty($this->account_id_debet)) {
+                    $this->addError($attribute, 'Credit and Debet account must be set for '.TransactionEnum::TYPE_TRANSFER.' type');
+                }
+                if (!empty($this->article)) {
+                    $this->addError($attribute, 'Article cannot be set for '.TransactionEnum::TYPE_TRANSFER.' type');
+                }
+                break;
+        }
     }
 
     /**
