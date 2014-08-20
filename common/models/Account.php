@@ -150,6 +150,25 @@ class Account extends CActiveRecord
     }
 
     /**
+     * Возвращает общий баланс всех счетов
+     *
+     * @param null $date
+     * @return int
+     */
+    public function getTotalBalance($date=null)
+    {
+        $accountList = Account::model()->findAll();
+        if (empty($accountList)) {
+            return 0;
+        }
+        $total_balance = 0;
+        foreach ($accountList as $account) {
+            $total_balance += $account->getBalance();
+        }
+        return $total_balance;
+    }
+
+    /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.

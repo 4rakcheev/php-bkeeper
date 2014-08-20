@@ -5,7 +5,7 @@
             'id'=>'budget_plan_id',
             'type'=>'striped bordered condensed',
             'dataProvider'=>$expGridDataProvider,
-            'template'=>"{items}",
+            'template'=>"{items}\n{pager}",
             'columns'=>array(
                 array('name'=>'budget_plan_id', 'header'=>'#'),
                 array('name'=>'article_name', 'header'=>'Article name'),
@@ -26,7 +26,7 @@
         $this->widget('bootstrap.widgets.TbGridView', array(
                 'type'=>'striped bordered condensed',
                 'dataProvider'=>$comGridDataProvider,
-                'template'=>"{items}",
+                'template'=>"{items}\n{pager}",
                 'columns'=>array(
                     array('name'=>'budget_plan_id', 'header'=>'#'),
                     array('name'=>'article_name', 'header'=>'Article name'),

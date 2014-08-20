@@ -10,7 +10,7 @@ $this->sidebar=array(
     $this->widget('bootstrap.widgets.TbGridView', array(
         'type'=>'striped bordered condensed',
         'dataProvider'=>$gridDataProvider,
-        'template'=>"{items}",
+        'template'=>"{items}\n{pager}",
         'columns'=>array(
             array('name'=>'article_id', 'header'=>'#'),
             array('name'=>'article_name', 'header'=>'Name'),

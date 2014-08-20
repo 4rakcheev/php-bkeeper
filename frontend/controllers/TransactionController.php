@@ -39,7 +39,7 @@ class TransactionController extends CController {
     {
         $dataProvider=new CActiveDataProvider('Transaction', array(
             'pagination'=>array(
-                'pageSize'=>5,
+                'pageSize'=>30,
             ),
         ));
 

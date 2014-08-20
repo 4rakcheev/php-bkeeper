@@ -39,7 +39,7 @@ class AccountController extends CController {
     {
         $dataProvider=new CActiveDataProvider('Account', array(
             'pagination'=>array(
-                'pageSize'=>5,
+                'pageSize'=>30,
             ),
         ));
 

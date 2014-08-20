@@ -39,7 +39,7 @@ class ArticleGroupController extends CController {
     {
         $dataProvider=new CActiveDataProvider('ArticleGroup', array(
             'pagination'=>array(
-                'pageSize'=>5,
+                'pageSize'=>30,
             ),
         ));
 

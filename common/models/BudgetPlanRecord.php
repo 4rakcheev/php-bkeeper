@@ -33,6 +33,12 @@ class BudgetPlanRecord extends CActiveRecord
         return 'budget_plan';
     }
 
+    public function init()
+    {
+        parent::init();
+        $this->budget_plan_year = date('Y');
+    }
+
     /**
      * @return array validation rules for model attributes.
      */
@@ -43,6 +49,7 @@ class BudgetPlanRecord extends CActiveRecord
         return array(
             array('article_id, budget_plan_year', 'required'),
             array('article_id, budget_plan_year', 'numerical', 'integerOnly'=>true),
+            array('budget_plan_year', 'default', 'value'=>date('Y')),
             array('budget_plan_yan, budget_plan_feb, budget_plan_mar, budget_plan_apr, budget_plan_may, budget_plan_jun, budget_plan_jul, budget_plan_aug, budget_plan_sep, budget_plan_oct, budget_plan_nov, budget_plan_dec', 'length', 'max'=>20),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.

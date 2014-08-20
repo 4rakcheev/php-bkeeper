@@ -4,7 +4,7 @@
     $this->widget('bootstrap.widgets.TbGridView', array(
         'type'=>'striped bordered condensed',
         'dataProvider'=>$gridDataProvider,
-        'template'=>"{items}",
+        'template'=>"{items}\n{pager}",
         'columns'=>array(
             array('name'=>'transaction_id', 'header'=>'#'),
             array('name'=>'transaction_type', 'header'=>'Type'),

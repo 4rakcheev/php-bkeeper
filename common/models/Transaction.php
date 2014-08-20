@@ -31,6 +31,7 @@ class Transaction extends CActiveRecord
 
     public function init()
     {
+        parent::init();
         $this->transaction_date = date('Y-m-d');
         $this->transaction_type = TransactionEnum::TYPE_EXPENSE;
         $this->transaction_status = 1;

@@ -10,8 +10,8 @@ class BudgetPlanSummary extends CModel {
 
     public $article_id;
     public $month;
-    public $plan_amount;
-    public $today_amount;
+    public $plan_amount=0;
+    public $today_amount=0;
 
     public function attributeNames()
     {

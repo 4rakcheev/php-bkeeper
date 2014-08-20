@@ -20,13 +20,14 @@ echo $form->textFieldRow($model, 'transaction_date', array('class'=>'span4'));
 
 <?php echo $form->dropDownListRow(
     $model,
-    'account_id_debet',
+    'account_id_credit',
     CHtml::listData( Account::model()->findAll(), 'account_id','account_name' ),
     array('empty'=>'', 'class'=>'span3')
 ); ?>
+
 <?php echo $form->dropDownListRow(
     $model,
-    'account_id_credit',
+    'account_id_debet',
     CHtml::listData( Account::model()->findAll(), 'account_id','account_name' ),
     array('empty'=>'', 'class'=>'span3')
 ); ?>
