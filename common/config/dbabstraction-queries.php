@@ -67,16 +67,26 @@ return array(
                     , bp.budget_plan_nov
                     , bp.budget_plan_dec
                     , bp.budget_plan_year
-                    , SUM(t.transaction_amount) AS amount
                   FROM budget_plan bp
                   JOIN article a ON a.article_id = bp.article_id
-                  LEFT JOIN transaction t ON a.article_id = t.article_id
-                  LEFT JOIN account acd ON t.account_id_debet = acd.account_id
                   WHERE 1=1
                     AND a.article_type = :article_type
                     AND bp.budget_plan_year = :year
                      GROUP BY a.article_id",
         'paramsNames' => array('year'=>'num', 'article_type'=>'str'),
+    ),
+    'getArticleSummary'=>array(
+        'driverName' => 'mysql',
+        'fetch' => 'fetchRow',
+        'fetchMode' => PDO::FETCH_ASSOC,
+        'tpl' => "SELECT
+                    SUM(t.transaction_amount) AS amount
+                  FROM article a
+                  RIGHT JOIN transaction t ON a.article_id = t.article_id
+                  WHERE 1=1
+                    AND a.article_id = :article_id
+                    AND DATE_FORMAT(t.transaction_date, '%b') = UCASE(:month)",
+        'paramsNames' => array('article_id'=>'num', 'month'=>'str'),
     ),
     'getAccountBalanceInfo'=>array(
         'driverName' => 'mysql',

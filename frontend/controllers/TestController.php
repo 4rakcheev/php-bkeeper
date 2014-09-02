@@ -10,6 +10,7 @@ class TestController extends CController {
 
     public function actionIndex()
     {
+        var_dump(date('Y-M-d', strtotime('2014-09')));
     }
 
 } 

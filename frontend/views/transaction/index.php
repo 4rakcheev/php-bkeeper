@@ -1,3 +1,20 @@
+<div class="container">
+    <?php
+    $this->widget('frontend.extensions.widgets.YearMonthPager', array(
+            'urlRoute'=>'transaction/index',
+            'dateVar'=>'date',
+        ));
+    ?>
+</div>
+
+<div class="container">
+    <?php $this->widget('bootstrap.widgets.TbButton', array(
+            'label'=>'Add new transaction',
+            'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+            'size'=>'large', // null, 'large', 'small' or 'mini'
+            'url'=>array('create'),
+        )); ?>
+</div>
 
 <div class="container">
 <?php
@@ -25,7 +42,7 @@
 </div>
 <div class="container">
 <?php $this->widget('bootstrap.widgets.TbButton', array(
-        'label'=>'Add new account',
+        'label'=>'Add new transaction',
         'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
         'size'=>'large', // null, 'large', 'small' or 'mini'
         'url'=>array('create'),

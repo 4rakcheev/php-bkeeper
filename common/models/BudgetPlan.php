@@ -8,6 +8,8 @@
 
 class BudgetPlan extends CModel {
 
+    const DATE_FORMAT='Y-m';
+
     public $date;
     public $budget_plan_id;
 
@@ -25,8 +27,8 @@ class BudgetPlan extends CModel {
     public function rules()
     {
         return array(
-            array('date', 'default', 'value'=>date('Y-m-d')),
-            array('date', 'date', 'format'=>'yyyy-MM-dd'),
+            array('date', 'default', 'value'=>date(self::DATE_FORMAT)),
+            array('date', 'date', 'format'=>'yyyy-MM'),
         );
     }
 
@@ -126,7 +128,7 @@ class BudgetPlan extends CModel {
             $summary->article_id = $summaryInfo['article_id'];
             $summary->month = $month;
             $summary->plan_amount = $summaryInfo['budget_plan_'.$month];
-            $summary->today_amount = $summaryInfo['amount'];
+            $summary->today_amount = Article::model()->findByPk($summaryInfo['article_id'])->getAmount($month);
             $this->_summaryList[$type][$summaryInfo['budget_plan_id']] = $summary;
         }
         return $this->_summaryList[$type];
