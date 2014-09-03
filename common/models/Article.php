@@ -16,6 +16,8 @@
  */
 class Article extends CActiveRecord
 {
+    public $amount=0;
+
     /**
      * @return string the associated database table name
      */
@@ -37,6 +39,7 @@ class Article extends CActiveRecord
             array('article_name', 'length', 'max'=>50),
             array('article_type', 'length', 'max'=>7),
             array('article_type', 'in', 'range'=> ArticleEnum::getValidValues()),
+            array('amount', 'numerical', 'integerOnly'=>true),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('article_id, article_name, article_group_id, article_type', 'safe', 'on'=>'search'),
@@ -108,4 +111,24 @@ class Article extends CActiveRecord
     {
         return parent::model($className);
     }
+
+    /**
+     * Возвращает сумму транзакций по этому счету
+     *
+     * @param null $month
+     * @return int
+     */
+    public function getAmount($month=null)
+    {
+        if (empty($month)) {
+            $month = date('M');
+        }
+        $connection = Yii::app()->connMan->getConn('dbMySQL');
+        $db_result = $connection->query('getArticleSummary', array(
+                'article_id' => $this->article_id,
+                'month' => $month,
+            ));
+        return $db_result[1]['amount'] ?: 0;
+    }
+
 }

@@ -1,3 +1,11 @@
+<div class="container">
+    <?php
+    $this->widget('frontend.extensions.widgets.YearMonthPager', array(
+            'urlRoute'=>'budgetPlan/index',
+            'dateVar'=>'date',
+        ));
+    ?>
+</div>
 
 <div class="container">
     <?php

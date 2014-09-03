@@ -118,6 +118,9 @@ $config = array(
             'showScriptName' => false,
             'urlSuffix' => '/',
             'rules'=>array(
+                'budgetPlan/index/<date:\d{4}-\d{2}>' => 'budgetPlan/index',
+                'main/index/<date:\d{4}-\d{2}>' => 'main/index',
+                'transaction/index/<date:\d{4}-\d{2}>' => 'transaction/index',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ),
@@ -125,6 +128,18 @@ $config = array(
 
         'bootstrap' => array(
             'class' => 'bootstrap.components.Bootstrap',
+        ),
+
+        'widgetFactory' => array(
+            'widgets' => array(
+                'YearMonthPager' => array(
+                    'header' => '<div class="pagination pagination-centered">',
+                    'footer' => '</div>',
+                    'selectedPageCssClass' => 'active',
+                    'hiddenPageCssClass' => 'disabled',
+                    'htmlOptions' => array('class' => '',),
+                ),
+            ),
         ),
 
         'db' => array(

@@ -35,11 +35,19 @@ class TransactionController extends CController {
             ));
     }
 
-    public function actionIndex()
+    public function actionIndex($date=null)
     {
+        if (empty($date)) {
+            $date = date('Y-m');
+        }
+
         $dataProvider=new CActiveDataProvider('Transaction', array(
+            'criteria'=>array(
+                'condition'=>'DATE_FORMAT(transaction_date, "%b") = UCASE("'.date('M', strtotime($date)).'")',
+                'order'=>'transaction_id DESC',
+            ),
             'pagination'=>array(
-                'pageSize'=>30,
+                'pageSize'=>10,
             ),
         ));
 

@@ -10,20 +10,18 @@ class MainController extends CController {
 
     public $sidebar = array();
 
-    public function actionIndex()
+    public function actionIndex($date=null)
     {
+        if (empty($date)) {
+            $date = date('Y-m');
+        }
         $budgetPlan = new BudgetPlan();
-        $budgetPlan->date = date('Y-m-d');
-
-        $accountsTotalBalance = Account::model()->getTotalBalance();
-
-        // @todo Move to BudgetModel
-        $endAmount = $accountsTotalBalance + $budgetPlan->summaryExpense->total_today_amount - $budgetPlan->summaryExpense->total_plan_amount;
+        $budgetPlan->date = $date;
 
         $this->render('index',array(
                 'budgetPlan'=>$budgetPlan,
-                'accountsTotalBalance'=>$accountsTotalBalance,
-                'endAmount'=>$endAmount,
+                'accountsTotalBalance'=>Account::model()->getTotalBalance(date('Y-m-d', strtotime($date))),
+                'endAmount'=>$budgetPlan->getAmountAtTheEnd(),
             ));
 
     }
