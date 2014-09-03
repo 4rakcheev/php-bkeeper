@@ -152,7 +152,7 @@ class Account extends CActiveRecord
     /**
      * Возвращает общий баланс всех счетов
      *
-     * @param null $date
+     * @param null $date Y-m-d
      * @return int
      */
     public function getTotalBalance($date=null)
