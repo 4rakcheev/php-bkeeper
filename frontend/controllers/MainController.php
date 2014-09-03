@@ -18,9 +18,15 @@ class MainController extends CController {
         $budgetPlan = new BudgetPlan();
         $budgetPlan->date = $date;
 
+        if ($date < date('Y-m')) {
+            $dateAccount=date('Y-m-01', strtotime($date));
+        }
+        else {
+            $dateAccount=date('Y-m-d');
+        }
         $this->render('index',array(
                 'budgetPlan'=>$budgetPlan,
-                'accountsTotalBalance'=>Account::model()->getTotalBalance(date('Y-m-d', strtotime($date))),
+                'accountsTotalBalance'=>Account::model()->getTotalBalance($dateAccount),
                 'endAmount'=>$budgetPlan->getAmountAtTheEnd(),
             ));
 

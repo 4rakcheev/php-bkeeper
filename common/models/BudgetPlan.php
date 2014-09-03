@@ -144,30 +144,27 @@ class BudgetPlan extends CModel {
     {
         $bFinished = new BudgetPlan();
         $bFinished->date=$date;
-        return
-              ($bFinished->summaryComing->total_today_amount
-                 +
-               Account::model()->getTotalBalance(date('Y-m-d', strtotime($date))))
-                 -
-              $bFinished->summaryExpense->total_today_amount;
+        // Возвращаем остаток по счетам на последний день прошлого месяца Y-m-t
+        return Account::model()->getTotalBalance(date('Y-m-t', strtotime($date)));
     }
 
     public function getAmountAtTheEnd()
     {
         $amountPrevious=$this->getFinishedMonthBalance($this->getPrevMonthDate($this->date));
+        // Если месяц уже закрыт, то выводим данные из фактически потраченного
         if ($this->date < date('Y-m')) {
             $amount = $this->summaryComing->total_today_amount
               +
-              $amountPrevious
+            $amountPrevious
               -
-              $this->summaryExpense->total_today_amount;
+            $this->summaryExpense->total_today_amount;
         }
         else {
             $amount = $this->summaryComing->total_plan_amount
               +
-              $amountPrevious
+            $amountPrevious
               -
-              $this->summaryExpense->total_plan_amount;
+            $this->summaryExpense->total_plan_amount;
         }
         return $amount;
     }
