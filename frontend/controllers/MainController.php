@@ -18,22 +18,10 @@ class MainController extends CController {
         $budgetPlan = new BudgetPlan();
         $budgetPlan->date = $date;
 
-        $accountsTotalBalance = Account::model()->getTotalBalance(date('Y-m-d', strtotime($date)));
-
-        // @todo Move to BudgetModel
-        ///*
-        $endAmount =
-          $budgetPlan->summaryComing->total_plan_amount
-            +
-          ($accountsTotalBalance - $budgetPlan->summaryComing->total_today_amount)
-            -
-          ($budgetPlan->summaryExpense->total_plan_amount - $budgetPlan->summaryExpense->total_today_amount);
-         //*/
-        // $endAmount = $budgetPlan->summaryComing->total_plan_amount - $budgetPlan->summaryExpense->total_plan_amount;
         $this->render('index',array(
                 'budgetPlan'=>$budgetPlan,
-                'accountsTotalBalance'=>$accountsTotalBalance,
-                'endAmount'=>$endAmount,
+                'accountsTotalBalance'=>Account::model()->getTotalBalance(date('Y-m-d', strtotime($date))),
+                'endAmount'=>$budgetPlan->getAmountAtTheEnd(),
             ));
 
     }

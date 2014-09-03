@@ -134,4 +134,42 @@ class BudgetPlan extends CModel {
         return $this->_summaryList[$type];
     }
 
+    public static function getPrevMonthDate($date, $format='Y-m')
+    {
+        $dt=date_create($date.' first day of last month');
+        return $dt->format($format);
+    }
+
+    public function getFinishedMonthBalance($date)
+    {
+        $bFinished = new BudgetPlan();
+        $bFinished->date=$date;
+        return
+              ($bFinished->summaryComing->total_today_amount
+                 +
+               Account::model()->getTotalBalance(date('Y-m-d', strtotime($date))))
+                 -
+              $bFinished->summaryExpense->total_today_amount;
+    }
+
+    public function getAmountAtTheEnd()
+    {
+        $amountPrevious=$this->getFinishedMonthBalance($this->getPrevMonthDate($this->date));
+        if ($this->date < date('Y-m')) {
+            $amount = $this->summaryComing->total_today_amount
+              +
+              $amountPrevious
+              -
+              $this->summaryExpense->total_today_amount;
+        }
+        else {
+            $amount = $this->summaryComing->total_plan_amount
+              +
+              $amountPrevious
+              -
+              $this->summaryExpense->total_plan_amount;
+        }
+        return $amount;
+    }
+
 } 
