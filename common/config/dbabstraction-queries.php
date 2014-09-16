@@ -54,7 +54,7 @@ return array(
                     a.article_id
                     , a.article_name
                     , bp.budget_plan_id
-                    , bp.budget_plan_yan
+                    , bp.budget_plan_jan
                     , bp.budget_plan_feb
                     , bp.budget_plan_mar
                     , bp.budget_plan_apr

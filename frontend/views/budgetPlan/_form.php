@@ -18,7 +18,7 @@
 echo $form->textFieldRow($model, 'budget_plan_year', array('class'=>'span2'));
 ?>
 <?php
-echo $form->textFieldRow($model, 'budget_plan_yan', array('class'=>'span2'));
+echo $form->textFieldRow($model, 'budget_plan_jan', array('class'=>'span2'));
 ?>
 <?php
 echo $form->textFieldRow($model, 'budget_plan_feb', array('class'=>'span2'));

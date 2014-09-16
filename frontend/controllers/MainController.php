@@ -18,6 +18,7 @@ class MainController extends CController {
         $budgetPlan = new BudgetPlan();
         $budgetPlan->date = $date;
 
+        // @todo Refactor
         if ($date < date('Y-m')) {
             $dateAccount=date('Y-m-01', strtotime($date));
         }

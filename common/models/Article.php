@@ -57,6 +57,7 @@ class Article extends CActiveRecord
             'articleGroup' => array(self::BELONGS_TO, 'ArticleGroup', 'article_group_id'),
             'budgetPlans' => array(self::HAS_MANY, 'BudgetPlanRecord', 'article_id'),
             'transactions' => array(self::HAS_MANY, 'Transaction', 'article_id'),
+            'articleTarget' => array(self::HAS_ONE, 'ArticleTargetRecord', 'article_target_article_id'),
         );
     }
 
