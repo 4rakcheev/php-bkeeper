@@ -64,6 +64,14 @@
                                 'class' => 'bootstrap.widgets.TbMenu',
                                 'htmlOptions' => array('class' => 'pull-left'),
                                 'items' => array(
+                                    array('label' => 'Цели', 'url' => array('/articleTarget/index'), 'visible' => Yii::app()->user->isGuest),
+                                ),
+                            ),
+
+                            array(
+                                'class' => 'bootstrap.widgets.TbMenu',
+                                'htmlOptions' => array('class' => 'pull-left'),
+                                'items' => array(
                                     array('label' => 'Счета', 'url' => array('/account/index'), 'visible' => Yii::app()->user->isGuest),
                                 ),
                             ),
@@ -101,6 +109,10 @@
                         'closeText'=>'&times;', // close link text - if set to false, no close link is displayed
                         'alerts'=>array( // configurations per alert type
                             'success'=>array('block'=>true, 'fade'=>true, 'closeText'=>'&times;'), // success, info, warning, error or danger
+                            'info'=>array('block'=>true, 'fade'=>true, 'closeText'=>'&times;'),
+                            'warning'=>array('block'=>true, 'fade'=>true, 'closeText'=>'&times;'),
+                            'error'=>array('block'=>true, 'fade'=>true, 'closeText'=>'&times;'),
+                            'danger'=>array('block'=>true, 'fade'=>true, 'closeText'=>'&times;'),
                         ),
                     )); ?>
 

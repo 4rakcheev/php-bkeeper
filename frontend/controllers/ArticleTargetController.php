@@ -1,24 +1,24 @@
 <?php
 /**
- * @file TransactionController.php
- *
- * @project bkeeper
- * @author tema 4tema2@gmail.com
- * @date 04.06.14 15:40
+ * Created by PhpStorm.
+ * User: tema
+ * Date: 23.08.14
+ * Time: 18:25
  */
-
-class TransactionController extends CController {
+class ArticleTargetController extends CController {
 
     public $sidebar = array();
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer the ID of the model to be loaded
+     * @param integer $id the ID of the model to be loaded
+     * @return ArticleTargetRecord
+     * @throws CHttpException Not found
      */
     public function loadModel($id)
     {
-        $model=Transaction::model()->findByPk($id);
+        $model=ArticleTargetRecord::model()->findByPk($id);
         if($model===null)
             throw new CHttpException(404,'The requested page does not exist.');
         return $model;
@@ -35,19 +35,11 @@ class TransactionController extends CController {
             ));
     }
 
-    public function actionIndex($date=null)
+    public function actionIndex()
     {
-        if (empty($date)) {
-            $date = date('Y-m');
-        }
-
-        $dataProvider=new CActiveDataProvider('Transaction', array(
-            'criteria'=>array(
-                'condition'=>'DATE_FORMAT(transaction_date, "%b") = UCASE("'.date('M', strtotime($date)).'")',
-                'order'=>'transaction_id DESC',
-            ),
+        $dataProvider=new CActiveDataProvider('ArticleTargetRecord', array(
             'pagination'=>array(
-                'pageSize'=>10,
+                'pageSize'=>30,
             ),
         ));
 
@@ -59,11 +51,11 @@ class TransactionController extends CController {
 
     public function actionCreate()
     {
-        $model = new Transaction();
+        $model = new ArticleTargetRecord();
 
         // collect user input data
-        if (isset($_POST['Transaction'])) {
-            $model->attributes=$_POST['Transaction'];
+        if (isset($_POST['ArticleTargetRecord'])) {
+            $model->attributes=$_POST['ArticleTargetRecord'];
             if($model->save()) {
                 $this->redirect(array('index'));
             }
@@ -79,9 +71,9 @@ class TransactionController extends CController {
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if(isset($_POST['Transaction']))
+        if(isset($_POST['ArticleTargetRecord']))
         {
-            $model->attributes=$_POST['Transaction'];
+            $model->attributes=$_POST['ArticleTargetRecord'];
             if($model->save()) {
                 $this->redirect(array('index'));
             }
@@ -106,4 +98,4 @@ class TransactionController extends CController {
         }
     }
 
-} 
+}

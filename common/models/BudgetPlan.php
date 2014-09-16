@@ -8,6 +8,8 @@
 
 class BudgetPlan extends CModel {
 
+    const DATE_FORMAT='Y-m';
+
     public $date;
     public $budget_plan_id;
 
@@ -25,8 +27,8 @@ class BudgetPlan extends CModel {
     public function rules()
     {
         return array(
-            array('date', 'default', 'value'=>date('Y-m-d')),
-            array('date', 'date', 'format'=>'yyyy-MM-dd'),
+            array('date', 'default', 'value'=>date(self::DATE_FORMAT)),
+            array('date', 'date', 'format'=>'yyyy-MM'),
         );
     }
 
@@ -126,10 +128,45 @@ class BudgetPlan extends CModel {
             $summary->article_id = $summaryInfo['article_id'];
             $summary->month = $month;
             $summary->plan_amount = $summaryInfo['budget_plan_'.$month];
-            $summary->today_amount = $summaryInfo['amount'];
+            $summary->today_amount = Article::model()->findByPk($summaryInfo['article_id'])->getAmount($month);
             $this->_summaryList[$type][$summaryInfo['budget_plan_id']] = $summary;
         }
         return $this->_summaryList[$type];
+    }
+
+    public static function getPrevMonthDate($date, $format='Y-m')
+    {
+        $dt=date_create($date.' first day of last month');
+        return $dt->format($format);
+    }
+
+    public function getFinishedMonthBalance($date)
+    {
+        $bFinished = new BudgetPlan();
+        $bFinished->date=$date;
+        // Возвращаем остаток по счетам на последний день прошлого месяца Y-m-t
+        return Account::model()->getTotalBalance(date('Y-m-t', strtotime($date)));
+    }
+
+    public function getAmountAtTheEnd()
+    {
+        $amountPrevious=$this->getFinishedMonthBalance($this->getPrevMonthDate($this->date));
+        // Если месяц уже закрыт, то выводим данные из фактически потраченного
+        if ($this->date < date('Y-m')) {
+            $amount = $this->summaryComing->total_today_amount
+              +
+            $amountPrevious
+              -
+            $this->summaryExpense->total_today_amount;
+        }
+        else {
+            $amount = $this->summaryComing->total_plan_amount
+              +
+            $amountPrevious
+              -
+            $this->summaryExpense->total_plan_amount;
+        }
+        return $amount;
     }
 
 } 

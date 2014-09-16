@@ -35,14 +35,18 @@ class BudgetPlanController extends CController {
             ));
     }
 
-    public function actionIndex()
+    public function actionIndex($date=null)
     {
+        if (empty($date)) {
+            $date = date(BudgetPlan::DATE_FORMAT);
+        }
         $records = BudgetPlanRecord::model()->findAll();
         $expRows = array();
         $comRows = array();
         if (!empty($records)) {
+            $bp = new BudgetPlan();
+            $bp->date = $date;
             foreach ($records as $record) {
-                $bp = new BudgetPlan();
                 $bp->budget_plan_id = $record->budget_plan_id;
                 switch ($record->article->article_type) {
                     case ArticleEnum::TYPE_EXPENSE:
@@ -103,6 +107,8 @@ class BudgetPlanController extends CController {
         $this->render('index',array(
                 'expGridDataProvider'=>$expDataProvider,
                 'comGridDataProvider'=>$comDataProvider,
+                'month'=>date('m', $date),
+                'year'=>date('Y', $date),
             ));
 
     }

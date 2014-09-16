@@ -152,7 +152,7 @@ class Account extends CActiveRecord
     /**
      * Возвращает общий баланс всех счетов
      *
-     * @param null $date
+     * @param null $date Y-m-d
      * @return int
      */
     public function getTotalBalance($date=null)
@@ -163,7 +163,7 @@ class Account extends CActiveRecord
         }
         $total_balance = 0;
         foreach ($accountList as $account) {
-            $total_balance += $account->getBalance();
+            $total_balance += $account->getBalance($date);
         }
         return $total_balance;
     }
