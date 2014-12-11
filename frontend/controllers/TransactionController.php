@@ -47,7 +47,7 @@ class TransactionController extends CController {
                 'order'=>'transaction_id DESC',
             ),
             'pagination'=>array(
-                'pageSize'=>10,
+                'pageSize'=>30,
             ),
         ));
 
