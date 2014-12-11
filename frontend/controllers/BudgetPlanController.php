@@ -40,7 +40,7 @@ class BudgetPlanController extends CController {
         if (empty($date)) {
             $date = date(BudgetPlan::DATE_FORMAT);
         }
-        $records = BudgetPlanRecord::model()->findAll();
+        $records = BudgetPlanRecord::model()->findAll('budget_plan_year='.date('Y', strtotime($date)));
         $expRows = array();
         $comRows = array();
         if (!empty($records)) {
@@ -77,7 +77,7 @@ class BudgetPlanController extends CController {
                 ),
             ),
             'pagination'=>array(
-                'pageSize'=>25,
+                'pageSize'=>30,
             ),
         ));
         $comDataProvider=new CArrayDataProvider($comRows, array(
