@@ -128,15 +128,7 @@ $config = array(
         // */
 
         'widgetFactory' => array(
-            'widgets' => array(
-                'YearMonthPager' => array(
-                    'header' => '<div class="pagination pagination-centered">',
-                    'footer' => '</div>',
-                    'selectedPageCssClass' => 'active',
-                    'hiddenPageCssClass' => 'disabled',
-                    'htmlOptions' => array('class' => '',),
-                ),
-            ),
+            'enableSkin'=>true,
         ),
 
         'log' => array(

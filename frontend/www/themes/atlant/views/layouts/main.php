@@ -58,45 +58,45 @@
                 // Operation part
                 array('label'=>'Операции', 'url'=>null, 'itemOptions'=>array('class'=>'xn-title'),),
                 array(
-                    'label'=>'<span class="fa fa-area-chart"></span> <span class="xn-text">Итог</span>',
+                    'label'=>'<span class="fa fa-area-chart"></span> <span class="xn-text">'.Yii::t('strings', 'Итог').'</span>',
                     'url'=>array('main/index'),
                 ),
                 array(
-                    'label'=>'<span class="fa fa-barcode"></span> <span class="xn-text">Операции</span>',
+                    'label'=>'<span class="fa fa-barcode"></span> <span class="xn-text">'.Yii::t('strings', 'Операции').'</span>',
                     'url'=>array('transaction/index'),
                 ),
                 array(
-                    'label'=>'<span class="fa fa-calculator"></span> <span class="xn-text">Бюджет</span>',
+                    'label'=>'<span class="fa fa-calculator"></span> <span class="xn-text">'.Yii::t('strings', 'Бюджет').'</span>',
                     'url'=>array('budgetPlan/index'),
                 ),
                 array(
-                    'label'=>'<span class="fa fa-flag"></span> <span class="xn-text">Цели</span>',
+                    'label'=>'<span class="fa fa-flag"></span> <span class="xn-text">'.Yii::t('strings', 'Цели').'</span>',
                     'url'=>array('articleTarget/index'),
                 ),
 
                 // Settings part
                 array('label'=>'Структура', 'url'=>null, 'itemOptions'=>array('class'=>'xn-title')),
                 array(
-                    'label'=>'<span class="fa fa-money"></span> <span class="xn-text">Счета</span>',
+                    'label'=>'<span class="fa fa-money"></span> <span class="xn-text">'.Yii::t('strings', 'Счета').'</span>',
                     'url'=>array('account/index'),
                 ),
                 array(
-                    'label'=>'<span class="fa fa-credit-card"></span> <span class="xn-text">Управление статьями</span>',
+                    'label'=>'<span class="fa fa-credit-card"></span> <span class="xn-text">'.Yii::t('strings', 'Управление статьями').'</span>',
                     'url'=>'#',
                     'itemOptions'=>array('class'=>'xn-openable'),
                     'items'=>array(
                         array(
-                            'label'=>'<span class="fa fa-credit-card"></span> <span class="xn-text">Статьи</span>',
+                            'label'=>'<span class="fa fa-credit-card"></span> <span class="xn-text">'.Yii::t('strings', 'Статьи').'</span>',
                             'url'=>array('article/index'),
                         ),
                         array(
-                            'label'=>'<span class="fa fa-inbox"></span> <span class="xn-text">Группы счетов</span>',
+                            'label'=>'<span class="fa fa-inbox"></span> <span class="xn-text">'.Yii::t('strings', 'Группы счетов').'</span>',
                             'url'=>array('articleGroup/index'),
                         ),
                     ),
                 ),
                 array(
-                    'label'=>'<span class="fa fa-rub"></span> <span class="xn-text">Валюта</span>',
+                    'label'=>'<span class="fa fa-rub"></span> <span class="xn-text">'.Yii::t('strings', 'Валюта').'</span>',
                     'url'=>array('currency/index'),
                 ),
 
@@ -111,22 +111,39 @@
 <div class="page-content">
 
 <!-- START X-NAVIGATION VERTICAL -->
-<ul class="x-navigation x-navigation-horizontal x-navigation-panel">
-    <!-- TOGGLE NAVIGATION -->
-    <li class="xn-icon-button">
-        <a href="#" class="x-navigation-minimize"><span class="fa fa-dedent"></span></a>
-    </li>
-    <!-- END TOGGLE NAVIGATION -->
-    <!-- POWER OFF -->
-    <li class="xn-icon-button pull-right last">
-        <a href="#"><span class="fa fa-power-off"></span></a>
-        <ul class="xn-drop-left animated zoomIn">
-            <li><a href="pages-lock-screen.html"><span class="fa fa-lock"></span> Lock Screen</a></li>
-            <li><a href="#" class="mb-control" data-box="#mb-signout"><span class="fa fa-sign-out"></span> Sign Out</a></li>
-        </ul>
-    </li>
-    <!-- END POWER OFF -->
-</ul>
+    <?php
+    $actionMenuItems=array(
+        // TOGGLE NAVIGATION
+        array(
+            'label'=>'<span class="fa fa-dedent"></span>',
+            'url'=>'#',
+            'itemOptions'=>array('class'=>'xn-icon-button'),
+            'linkOptions'=>array('class'=>'x-navigation-minimize'),
+        ),
+        // LOGOUT
+        array(
+            'label'=>'<span class="fa fa-power-off"></span>',
+            'url'=>'#',
+            'itemOptions'=>array('class'=>'xn-icon-button pull-right last'),
+            'template'=>'{menu}
+                <ul class="xn-drop-left animated zoomIn">
+                <li><a href="pages-lock-screen.html"><span class="fa fa-lock"></span> Lock Screen</a></li>
+                <li><a href="#" class="mb-control" data-box="#mb-signout"><span class="fa fa-sign-out"></span> Sign Out</a></li>
+            </ul>',
+        ),
+    );
+    ?>
+
+    <?php if(isset($this->actionMenuItems))
+        $actionMenuItems=array_merge($actionMenuItems, $this->actionMenuItems);
+    ?>
+
+    <?php $this->widget('zii.widgets.CMenu', array(
+            'encodeLabel'=>false,
+            'htmlOptions'=>array('class'=>'x-navigation x-navigation-horizontal x-navigation-panel'),
+            'activateParents'=>true,
+            'items'=>$actionMenuItems
+        )); ?>
 <!-- END X-NAVIGATION VERTICAL -->
 
 <!-- START BREADCRUMB -->
@@ -138,20 +155,14 @@
                 'inactiveLinkTemplate'=>'<li class="active">{label}</li>',
                 'activeLinkTemplate'=>'<li><a href="{url}">{label}</a></li>',
                 'links'=>$this->breadcrumbs,
-                'homeLink'=>'<li>'.CHtml::link('Главная','/' ).'</li>',
+                'homeLink'=>'<li>'.CHtml::link(Yii::t('strings', 'Главная'),'/' ).'</li>',
       )); ?>
     <?php endif?>
-    <!--
-    <ul class="breadcrumb">
-    <li><a href="#">Home</a></li>
-    <li class="active">Dashboard</li>
-</ul>
--->
 <!-- END BREADCRUMB -->
 
 <!-- PAGE CONTENT WRAPPER -->
 <div class="page-content-wrap">
-
+    <?php echo $content; ?>
 </div>
 <!-- END PAGE CONTENT WRAPPER -->
 </div>

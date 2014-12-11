@@ -10,6 +10,8 @@
 class TransactionController extends CController {
 
     public $sidebar = array();
+    public $breadcrumbs = array();
+    public $actionMenuItems=array();
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
