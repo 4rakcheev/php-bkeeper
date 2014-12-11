@@ -81,7 +81,12 @@ $config = array(
 
     // preload components required before running applications
     // @see http://www.yiiframework.com/doc/api/1.1/CModule#preload-detail
+    // Закоментировано, т.к. используется новая тема, для работы старой темы
+    // раскомментировать
+    /*
     'preload'=>array('log', 'bootstrap'),
+    // */
+    'preload'=>array('log'),
 
     // autoloading model and component classes
     // @see http://www.yiiframework.com/doc/api/1.1/YiiBase#import-detail
@@ -114,9 +119,13 @@ $config = array(
             ),
         ),
 
+        // Закоментировано, т.к. используется новая тема, для работы старой темы
+        // раскомментировать
+        /*
         'bootstrap' => array(
             'class' => 'bootstrap.components.Bootstrap',
         ),
+        // */
 
         'widgetFactory' => array(
             'widgets' => array(

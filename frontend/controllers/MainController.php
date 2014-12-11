@@ -9,6 +9,7 @@
 class MainController extends CController {
 
     public $sidebar = array();
+    public $breadcrumbs=array();
 
     public function actionIndex($date=null)
     {

@@ -1,3 +1,8 @@
+<?php
+$this->breadcrumbs=array(
+    'Итог'=>array('main/index'),
+);
+?>
 <div class="container">
     <?php
     $this->widget('frontend.extensions.widgets.YearMonthPager', array(
