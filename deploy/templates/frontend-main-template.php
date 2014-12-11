@@ -77,7 +77,7 @@ $config = array(
     // @see http://www.yiiframework.com/doc/api/1.1/CApplication#language-detail
     'language' => 'ru',
 
-    //'theme'=> 'bootstrap',
+    'theme'=> 'atlant',
 
     // preload components required before running applications
     // @see http://www.yiiframework.com/doc/api/1.1/CModule#preload-detail
