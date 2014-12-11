@@ -77,7 +77,7 @@ class BudgetPlanController extends CController {
                 ),
             ),
             'pagination'=>array(
-                'pageSize'=>20,
+                'pageSize'=>25,
             ),
         ));
         $comDataProvider=new CArrayDataProvider($comRows, array(
