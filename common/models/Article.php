@@ -116,11 +116,15 @@ class Article extends CActiveRecord
     /**
      * Возвращает сумму транзакций по этому счету
      *
-     * @param null $month
+     * @param null|int $year
+     * @param null|string $month
      * @return int
      */
-    public function getAmount($month=null)
+    public function getAmount($year=null, $month=null)
     {
+        if (empty($year)) {
+            $year = date('Y');
+        }
         if (empty($month)) {
             $month = date('M');
         }
@@ -128,6 +132,7 @@ class Article extends CActiveRecord
         $db_result = $connection->query('getArticleSummary', array(
                 'article_id' => $this->article_id,
                 'month' => $month,
+                'year' => $year,
             ));
         return $db_result[1]['amount'] ?: 0;
     }
