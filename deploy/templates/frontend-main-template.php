@@ -16,8 +16,7 @@ ini_set('display_errors', "%%php_display_errors%%");
 /**
  * Базовые дирректории
  */
-$frontendConfigDir = dirname(__FILE__);
-$root = $frontendConfigDir . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
+$root = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
 
 /**
  * Специфичные для данного приложения конфигурационные файлы и настройки
@@ -92,17 +91,6 @@ $config = array(
         'frontend.extensions.*',
     ),
 
-    'modules'=>array(
-        'gii'=>array(
-            'class'=>'system.gii.GiiModule',
-            'generatorPaths'=>array(
-                'bootstrap.gii',
-            ),
-            'password'=>'showmeall',
-            'ipFilters'=>array('192.168.1.101'),
-        ),
-    ),
-
     // application components
     'components' => array(
         'user' => array(
@@ -140,15 +128,6 @@ $config = array(
                     'htmlOptions' => array('class' => '',),
                 ),
             ),
-        ),
-
-        'db' => array(
-            'class' => 'CDbConnection',
-            'connectionString' => 'mysql:host=%%mysql_host%%;port=%%mysql_port%%;dbname=%%mysql_dbname%%',
-            'emulatePrepare' => true,
-            'username' => '%%mysql_username%%',
-            'password' => '%%mysql_password%%',
-            'charset' => 'utf8',
         ),
 
         'log' => array(

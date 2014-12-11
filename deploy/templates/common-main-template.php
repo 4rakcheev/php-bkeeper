@@ -16,8 +16,7 @@ ini_set('display_errors', "%%php_display_errors%%");
 /**
  * Базовые дирректории
  */
-$frontendConfigDir = dirname(__FILE__);
-$root = $frontendConfigDir . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
+$root = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
 
 /**
  * Специфичные для данного приложения конфигурационные файлы и настройки
@@ -106,6 +105,7 @@ $config = array(
 
         ),
 
+        /*
         'urlManager' => array(
             'urlFormat' => 'path',
             'showScriptName' => false,
@@ -115,6 +115,7 @@ $config = array(
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ),
         ),
+        // */
 
         'db' => array(
             'class' => 'CDbConnection',

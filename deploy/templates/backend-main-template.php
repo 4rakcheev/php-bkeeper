@@ -16,13 +16,13 @@ ini_set('display_errors', false);
 /**
  * Базовые дирректории
  */
-$backendConfigDir = dirname(__FILE__);
-$root = $backendConfigDir . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
+$root = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
 
 /**
  * Специфичные для данного приложения конфигурационные файлы и настройки
  * Часть содержимого $config
  */
+$commonConfigDir = $root . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'config';
 
 /**
  * Например:
@@ -60,6 +60,7 @@ Yii::setPathOfAlias('root', $root);
 Yii::setPathOfAlias('common', $root . DIRECTORY_SEPARATOR . 'common');
 Yii::setPathOfAlias('backend', $root . DIRECTORY_SEPARATOR . 'backend');
 Yii::setPathOfAlias('www', $root. DIRECTORY_SEPARATOR . 'backend' . DIRECTORY_SEPARATOR . 'www');
+Yii::setPathOfAlias('bootstrap', $root. DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'extensions'. DIRECTORY_SEPARATOR . 'bootstrap');
 
 /**
  * Основной конфигурационный файл приложения
@@ -69,7 +70,7 @@ $config = array(
     // @see http://www.yiiframework.com/doc/api/1.1/CApplication#basePath-detail
     'basePath' => 'backend',
 
-    'name' => 'WebApplication',
+    'name' => 'Admin panel',
 
     'sourceLanguage' => 'en',
 
@@ -78,7 +79,7 @@ $config = array(
 
     // preload components required before running applications
     // @see http://www.yiiframework.com/doc/api/1.1/CModule#preload-detail
-    'preload'=>array('log'),
+    'preload'=>array('log', 'bootstrap'),
 
     // autoloading model and component classes
     // @see http://www.yiiframework.com/doc/api/1.1/YiiBase#import-detail
@@ -86,17 +87,18 @@ $config = array(
         'backend.components.*',
         'backend.models.*',
         'backend.extensions.*',
-        'common.helpers.*',
-        'common.extensions.*',
-        'common.models.*',
     ),
 
-    // @see http://www.yiiframework.com/doc/api/1.1/CModule#setModules-detail
-    /*
     'modules'=>array(
-
+        'gii'=>array(
+            'class'=>'system.gii.GiiModule',
+            'generatorPaths'=>array(
+                'bootstrap.gii',
+            ),
+            'password'=>'showmeall',
+            'ipFilters'=>array('192.168.1.101'),
+        ),
     ),
-    */
 
     // application components
     'components' => array(
@@ -104,37 +106,28 @@ $config = array(
 
         ),
 
+        /*
         'assetManager' => array(
             'linkAssets' => true
         ),
+        // */
 
         'urlManager' => array(
             'urlFormat' => 'path',
             'showScriptName' => false,
             'urlSuffix' => '/',
             'rules'=>array(
+                'gii'=>'gii',
+                'gii/<controller:\w+>'=>'gii/<controller>',
+                'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ),
         ),
 
-        /*
         'bootstrap' => array(
-            'class' => 'common.extensions.bootstrap.components.Bootstrap',
-            'responsiveCss' => false,
+            'class' => 'bootstrap.components.Bootstrap',
         ),
-        */
-
-        /*
-        'db' => array(
-            'class' => 'CDbConnection',
-            'connectionString' => 'mysql:host=%%mysql_host%%;port=%%mysql_port%%;dbname=%%mysql_dbname%%',
-            'emulatePrepare' => true,
-            'username' => '%%mysql_username%%',
-            'password' => '%%mysql_password%%',
-            'charset' => 'utf8',
-        ),
-        */
 
         'log' => array(
             'class' => 'CLogRouter',
@@ -149,12 +142,10 @@ $config = array(
             )
         ),
 
-        /*
         'errorHandler' => array(
             // @see http://www.yiiframework.com/doc/api/1.1/CErrorHandler#errorAction-detail
             'errorAction'=>'site/error'
         ),
-        */
     ),
 
     // application-level parameters that can be accessed
@@ -175,7 +166,7 @@ $config = array(
  * При запуске через связку nginx + apache следует воспользоваться директивой SETENV
  *
  * @link http://habrahabr.ru/post/146473/
- */
+ *
 $environment = isset($_SERVER['APPLICATION_ENV']) ? $_SERVER['APPLICATION_ENV'] : 'production';
 
 if($environment !== 'production') {
@@ -189,5 +180,8 @@ if($environment !== 'production') {
         );
     }
 }
+// */
+
+//$config = CMap::mergeArray($config, require($commonConfigDir . '/main.php'));
 
 return $config;
