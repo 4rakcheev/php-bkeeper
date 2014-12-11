@@ -85,8 +85,9 @@ return array(
                   RIGHT JOIN transaction t ON a.article_id = t.article_id
                   WHERE 1=1
                     AND a.article_id = :article_id
-                    AND DATE_FORMAT(t.transaction_date, '%b') = UCASE(:month)",
-        'paramsNames' => array('article_id'=>'num', 'month'=>'str'),
+                    AND DATE_FORMAT(t.transaction_date, '%b') = UCASE(:month)
+                    AND DATE_FORMAT(t.transaction_date, '%Y') = UCASE(:year)",
+        'paramsNames' => array('article_id'=>'num', 'month'=>'str', 'year'=>'num'),
     ),
     'getAccountBalanceInfo'=>array(
         'driverName' => 'mysql',
