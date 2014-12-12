@@ -102,7 +102,8 @@ return array(
                       WHERE 1=1
                         AND a.account_id = :account_id
                         AND (td.transaction_type = 'COMING' OR td.transaction_type = 'TRANSFER')
-                        AND td.transaction_date <= :date
+                        AND (DATE_FORMAT(td.transaction_date, '%Y-%m-%d') < :date
+                             OR DATE_FORMAT(td.transaction_date, '%Y-%m-%d') = :date)
                     ) AS coming,
                     (
                       SELECT
@@ -112,7 +113,8 @@ return array(
                       WHERE 1=1
                         AND a.account_id = :account_id
                         AND (tc.transaction_type = 'EXPENSE' OR tc.transaction_type = 'TRANSFER')
-                        AND tc.transaction_date <= :date
+                        AND (DATE_FORMAT(tc.transaction_date, '%Y-%m-%d') < :date
+                             OR DATE_FORMAT(tc.transaction_date, '%Y-%m-%d') = :date)
                     ) AS expense,
                     (
                       SELECT a.account_start_balance FROM account a WHERE a.account_id = :account_id
