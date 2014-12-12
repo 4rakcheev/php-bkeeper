@@ -9,6 +9,7 @@
  * @property string $account_description
  * @property integer $currency_id
  * @property string $account_start_balance
+ * @property string $account_available_calculate_flag
  *
  * The followings are the available model relations:
  * @property Debt $account
@@ -40,6 +41,8 @@ class Account extends CActiveRecord
             array('account_name', 'length', 'max' => 50),
             array('account_description', 'length', 'max' => 255),
             array('account_start_balance', 'length', 'max' => 20),
+            array('account_available_calculate_flag', 'default', 'value'=>true, 'setOnEmpty'=>true),
+            array('account_available_calculate_flag', 'boolean'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array(
@@ -79,11 +82,12 @@ class Account extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'account_id' => 'Account',
-            'account_name' => 'Account Name',
-            'account_description' => 'Account Description',
-            'currency_id' => 'Currency',
-            'account_start_balance' => 'Account Start Balance',
+            'account_id' => Yii::t('strings', 'Счет'),
+            'account_name' => Yii::t('strings', 'Имя счета'),
+            'account_description' => Yii::t('strings', 'Краткое описание'),
+            'currency_id' => Yii::t('strings', 'Валюта'),
+            'account_start_balance' => Yii::t('strings', 'Начальный баланс'),
+            'account_available_calculate_flag' => Yii::t('strings', 'Учет баланса счета в сводобных средствах'),
         );
     }
 
@@ -163,6 +167,9 @@ class Account extends CActiveRecord
         }
         $total_balance = 0;
         foreach ($accountList as $account) {
+            if (!$account->account_available_calculate_flag) {
+                continue;
+            }
             $total_balance += $account->getBalance($date);
         }
         return $total_balance;

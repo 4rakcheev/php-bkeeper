@@ -18,6 +18,8 @@
     array('class'=>'span2')
 ); ?>
 
+<?php echo $form->checkboxRow($model, 'account_available_calculate_flag'); ?>
+
     <div class="form-actions">
         <?php $this->widget('bootstrap.widgets.TbButton', array(
                 'buttonType'=>'submit',
