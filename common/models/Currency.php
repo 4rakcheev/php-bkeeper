@@ -10,6 +10,8 @@
  */
 class Currency extends CActiveRecord
 {
+    CONST RUB_SYMBOL_HTML='&#8381;';
+
     /**
      * @return string the associated database table name
      */

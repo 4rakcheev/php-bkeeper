@@ -21,6 +21,8 @@
  */
 class Transaction extends CActiveRecord
 {
+    const I8LN_CAT='strings';
+
     /**
      * @return string the associated database table name
      */
@@ -125,15 +127,15 @@ class Transaction extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'transaction_id' => 'Transaction',
-            'transaction_type' => 'Transaction Type',
-            'transaction_status' => 'Transaction Status',
-            'transaction_date' => 'Transaction Date',
-            'account_id_debet' => 'Account Id Debet',
-            'account_id_credit' => 'Account Id Credit',
-            'transaction_amount' => 'Transaction Amount',
-            'article_id' => 'Article',
-            'transaction_description' => 'Transaction Description',
+            'transaction_id' => Yii::t(self::I8LN_CAT, 'Transaction'),
+            'transaction_type' => Yii::t(self::I8LN_CAT, 'Тип операции'),
+            'transaction_status' => Yii::t(self::I8LN_CAT, 'Состояние'),
+            'transaction_date' => Yii::t(self::I8LN_CAT, 'Дата операции'),
+            'account_id_debet' => Yii::t(self::I8LN_CAT, 'Дебет'),
+            'account_id_credit' => Yii::t(self::I8LN_CAT, 'Кредит'),
+            'transaction_amount' => Yii::t(self::I8LN_CAT, 'Сумма'),
+            'article_id' => Yii::t(self::I8LN_CAT, 'Статья'),
+            'transaction_description' => Yii::t(self::I8LN_CAT, 'Описание'),
         );
     }
 
@@ -188,4 +190,5 @@ class Transaction extends CActiveRecord
     {
         return parent::model($className);
     }
+
 }

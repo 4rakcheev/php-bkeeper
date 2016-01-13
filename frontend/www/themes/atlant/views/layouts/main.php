@@ -195,10 +195,11 @@
 <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/jquery/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/bootstrap/bootstrap.min.js"></script>
+<!-- <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/bootstrap/bootstrap-select.js"></script> -->
 <!-- END PLUGINS -->
 
 <!-- START THIS PAGE PLUGINS-->
-<script type='text/javascript' src='<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/icheck/icheck.min.js'></script>
+<!-- <script type='text/javascript' src='<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/icheck/icheck.min.js'></script> -->
 <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/scrolltotop/scrolltopcontrol.js"></script>
 
@@ -210,11 +211,11 @@
 <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/owl/owl.carousel.min.js"></script>
 
 <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/moment.min.js"></script>
-<script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/daterangepicker/daterangepicker.js"></script> -->
 <!-- END THIS PAGE PLUGINS-->
 
 <!-- START TEMPLATE -->
-<script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/settings.js"></script>
+<!-- <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/settings.js"></script> -->
 
 <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/actions.js"></script>

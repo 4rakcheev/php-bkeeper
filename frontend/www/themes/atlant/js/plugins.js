@@ -2,14 +2,14 @@ $(function() {
 
     var formElements = function(){                
         // Bootstrap datepicker
-        var feDatepicker = function(){                        
+        var feDatepicker = function(){
             if($(".datepicker").length > 0){
                 $(".datepicker").datepicker({format: 'yyyy-mm-dd'});                
                 $("#dp-2,#dp-3,#dp-4").datepicker(); // Sample
             }           
             
         }// END Bootstrap datepicker
-        
+
         //Bootstrap timepicker
         var feTimepicker = function(){
             // Default timepicker
@@ -147,10 +147,10 @@ $(function() {
         
         return {// Init all form element features
 		init: function(){                    
-                    feDatepicker();                    
+                    //feDatepicker();
                     feTimepicker();
                     feColorpicker();
-                    feSelect();
+                    //feSelect();
                     feValidation();
                     feMasked();
                     feTooltips();

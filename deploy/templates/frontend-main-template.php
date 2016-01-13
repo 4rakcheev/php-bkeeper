@@ -94,6 +94,7 @@ $config = array(
         'frontend.components.*',
         'frontend.models.*',
         'frontend.extensions.*',
+        'frontend.extensions.widgets.*',
     ),
 
     // application components
