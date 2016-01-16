@@ -106,7 +106,8 @@ $config = array(
     // application components
     'components' => array(
         'user' => array(
-
+            'class'=>'CWebUser',
+            'autoUpdateFlash'=>false,
         ),
 
         'messages' => array(

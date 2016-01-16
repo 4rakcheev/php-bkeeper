@@ -1,3 +1,9 @@
+<?php
+$this->sidebar=array(
+  array('label'=>'Учесть перерасход', 'icon'=>'retweet', 'url'=>array('budgetPlan/equate')),
+);
+?>
+
 <div class="container">
     <?php
     $this->widget('frontend.extensions.widgets.YearMonthPager', array(
@@ -6,6 +12,10 @@
         ));
     ?>
 </div>
+
+<?php
+$this->widget('bootstrap.widgets.TbAlert');
+?>
 
 <div class="container">
     <?php

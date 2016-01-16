@@ -161,7 +161,14 @@ class BudgetPlanRecord extends CActiveRecord
         return $amount;
     }
 
-    public function setDateAmountAppend($amount, $fromDate)
+    /**
+     * Добавляет сумму $amount к каждому месяцу от $fromDate в рамках года.
+     * Если $oneMonth задано, то будет применено только к указанному месяцу.
+     * @param $amount
+     * @param $fromDate
+     * @param boolean $oneMonth
+     */
+    public function setDateAmountAppend($amount, $fromDate, $oneMonth=false)
     {
         $date = new DateTime($fromDate);
         $mountPoint = (int)$date->format('m');
@@ -170,6 +177,9 @@ class BudgetPlanRecord extends CActiveRecord
             $this->{'budget_plan_'.strtolower($date->format('M'))} += $amount;
             if ($this->{'budget_plan_'.strtolower($date->format('M'))} < 0) {
                 $this->{'budget_plan_'.strtolower($date->format('M'))} = 0;
+            }
+            if ($oneMonth) {
+                break;
             }
         }
     }
