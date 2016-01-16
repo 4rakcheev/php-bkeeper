@@ -179,7 +179,7 @@ class BudgetPlanController extends CController {
         $planList = BudgetPlanRecord::model()->findAll('budget_plan_year='.date('Y', strtotime($date)));
         $bp = new BudgetPlan();
         $bp->date = $date;
-        $count=0;
+        $overrunText=array();
         foreach ($planList as $planRecord) {
             $bp->budget_plan_id = $planRecord->budget_plan_id;
             if ($amount=$bp->getOverrun()) {
@@ -188,10 +188,10 @@ class BudgetPlanController extends CController {
                 if (!$success) {
                     Yii::app()->user->setFlash('error',"Ошибка при сохранении плана #{$bp->budget_plan_id}: ".implode(', ', $bp->getErrors()));
                 }
-                $count++;
+                $overrunText[]=$bp->getArticleName().': '.$amount;
             }
         }
-        Yii::app()->user->setFlash('success',"Количество учтенных бюджетных статей: $count");
+        Yii::app()->user->setFlash('success',"Перерасход составил: ".implode(', ',$overrunText));
 
         $this->redirect(array('index'));
     }
