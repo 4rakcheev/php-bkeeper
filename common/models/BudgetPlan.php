@@ -160,4 +160,31 @@ class BudgetPlan extends CModel {
         return $result;
     }
 
+    public function getOverrun()
+    {
+        $amount=0;
+        if ($this->expense->today_amount > $this->expense->plan_amount) {
+            $amount=$this->expense->today_amount - $this->expense->plan_amount;
+        }
+        return $amount;
+    }
+
+    public static function getTotalOverrun($date=null)
+    {
+        if (empty($date)) {
+            $date = date(BudgetPlan::DATE_FORMAT);
+        }
+        $planList = BudgetPlanRecord::model()->findAll('budget_plan_year='.date('Y', strtotime($date)));
+        if (empty($planList)) {
+            return null;
+        }
+        $bp = new BudgetPlan();
+        $bp->date = $date;
+        $amount=0;
+        foreach ($planList as $planRecord) {
+            $bp->budget_plan_id = $planRecord->budget_plan_id;
+            $amount+=$bp->getOverrun();
+        }
+        return $amount;
+    }
 } 

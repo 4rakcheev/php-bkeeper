@@ -109,6 +109,7 @@ class BudgetPlanController extends CController {
                 'comGridDataProvider'=>$comDataProvider,
                 'month'=>date('m', $date),
                 'year'=>date('Y', $date),
+                'overrun'=>BudgetPlan::getTotalOverrun($date),
             ));
 
     }
@@ -162,39 +163,37 @@ class BudgetPlanController extends CController {
         }
     }
 
-    public function actionEquate($date=null)
+    public function actionApplyOverrun($date=null)
     {
-        Yii::app()->user->setFlash('success',"Нет перерасхода");
-        $this->redirect(array('index'));
+        //Yii::app()->user->setFlash('success',"Нет перерасхода");
+        //$this->redirect(array('index'));
+
         if (empty($date)) {
             $date = date(BudgetPlan::DATE_FORMAT);
         }
-        $planList = BudgetPlanRecord::model()->findAll('budget_plan_year='.date('Y', strtotime($date)));
-        if (empty($planList)) {
+        if (!BudgetPlan::getTotalOverrun($date)) {
             Yii::app()->user->setFlash('success',"Нет перерасхода");
             $this->redirect(array('index'));
-            return;
         }
+
+        $planList = BudgetPlanRecord::model()->findAll('budget_plan_year='.date('Y', strtotime($date)));
         $bp = new BudgetPlan();
         $bp->date = $date;
         $count=0;
-        $amount=0;
         foreach ($planList as $planRecord) {
             $bp->budget_plan_id = $planRecord->budget_plan_id;
-            if ($bp->expense->today_amount > $bp->expense->plan_amount) {
-                $amount=$bp->expense->today_amount - $bp->expense->plan_amount;
+            if ($amount=$bp->getOverrun()) {
                 $planRecord->setDateAmountAppend($amount, $date, true);
                 $success=$planRecord->save();
                 if (!$success) {
-                    Yii::app()->user->setFlash('budget',"Ошибка при сохранении плана #{$bp->budget_plan_id}: ".implode(', ', $bp->getErrors()));
+                    Yii::app()->user->setFlash('error',"Ошибка при сохранении плана #{$bp->budget_plan_id}: ".implode(', ', $bp->getErrors()));
                 }
                 $count++;
             }
         }
-        Yii::app()->user->setFlash('budget',"Приравнено $count бюджетных статей");
-        Yii::app()->user->setFlash('budget',"Общий перерасход: $amount");
+        Yii::app()->user->setFlash('success',"Количество учтенных бюджетных статей: $count");
 
         $this->redirect(array('index'));
     }
 
-} 
+}

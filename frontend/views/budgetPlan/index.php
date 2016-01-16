@@ -1,7 +1,9 @@
 <?php
-$this->sidebar=array(
-  array('label'=>'Учесть перерасход', 'icon'=>'retweet', 'url'=>array('budgetPlan/equate')),
-);
+if ($overrun > 0) {
+  $this->sidebar=array(
+    array('label'=>"Учесть перерасход ($overrun)", 'icon'=>'ok', 'url'=>array('budgetPlan/applyOverrun')),
+  );
+}
 ?>
 
 <div class="container">
