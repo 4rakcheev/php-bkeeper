@@ -107,8 +107,8 @@ class BudgetPlanController extends CController {
         $this->render('index',array(
                 'expGridDataProvider'=>$expDataProvider,
                 'comGridDataProvider'=>$comDataProvider,
-                'month'=>date('m', $date),
-                'year'=>date('Y', $date),
+                'month'=>date('m', strtotime($date)),
+                'year'=>date('Y', strtotime($date)),
                 'overrun'=>BudgetPlan::getTotalOverrun($date),
             ));
 

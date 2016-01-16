@@ -1,7 +1,7 @@
 <?php
 if ($overrun > 0) {
   $this->sidebar=array(
-    array('label'=>"Учесть перерасход ($overrun)", 'icon'=>'ok', 'url'=>array('budgetPlan/applyOverrun')),
+    array('label'=>"Учесть перерасход ($overrun)", 'icon'=>'ok', 'url'=>Yii::app()->controller->createUrl('budgetPlan/applyOverrun', array('date'=>$year.'-'.$month))),
   );
 }
 ?>
