@@ -43,7 +43,7 @@ class TransactionController extends CController {
 
         $dataProvider=new CActiveDataProvider('Transaction', array(
             'criteria'=>array(
-                'condition'=>'DATE_FORMAT(transaction_date, "%b") = UCASE("'.date('M', strtotime($date)).'")',
+                'condition'=>'DATE_FORMAT(transaction_date, "%b") = UCASE("'.date('M', strtotime($date)).'") AND DATE_FORMAT(transaction_date, "%Y") = UCASE("'.date('Y', strtotime($date)).'")',
                 'order'=>'transaction_id DESC',
             ),
             'pagination'=>array(
