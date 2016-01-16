@@ -150,23 +150,14 @@ class BudgetPlan extends CModel {
 
     public function getAmountAtTheEnd()
     {
-        $amountPrevious=$this->getFinishedMonthBalance($this->getPrevMonthDate($this->date));
-        // Если месяц уже закрыт, то выводим данные из фактически потраченного
-        if ($this->date < date('Y-m')) {
-            $amount = $this->summaryComing->total_today_amount
-              +
-            $amountPrevious
-              -
-            $this->summaryExpense->total_today_amount;
+        $result='---';
+        if ($this->date == date('Y-m')) {
+            $freeNow=$this->getFinishedMonthBalance($this->date);
+            $freeFuture=$this->summaryComing->total_plan_amount - $this->summaryComing->total_today_amount;
+            $expense=$this->summaryExpense->total_plan_amount - $this->summaryExpense->total_today_amount;
+            $result=$freeNow+$freeFuture-$expense;
         }
-        else {
-            $amount = $this->summaryComing->total_plan_amount
-              +
-            $amountPrevious
-              -
-            $this->summaryExpense->total_plan_amount;
-        }
-        return $amount;
+        return $result;
     }
 
 } 
